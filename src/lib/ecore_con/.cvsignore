@@ -1,0 +1,6 @@
+.deps
+.libs
+Makefile
+Makefile.in
+ecore_con.lo
+libecore_con.la
