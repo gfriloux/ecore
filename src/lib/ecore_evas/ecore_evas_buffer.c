@@ -2,6 +2,8 @@
 # include <config.h>
 #endif
 
+#include <stdlib.h>
+
 // NOTE: if you fix this, consider fixing ecore_evas_ews.c as it is similar!
 
 #include <Ecore.h>

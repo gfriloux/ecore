@@ -2,6 +2,8 @@
 # include <config.h>
 #endif
 
+#include <stdlib.h>
+
 #ifdef HAVE_TSLIB
 # include <tslib.h>
 # include <errno.h>

@@ -22,6 +22,12 @@
 /* Original Author: Adam Jackson <ajax@nwnk.net> */
 /* Heavily modified by: Leif Middelschulte <leif.middelschulte@gmail.com> */
 
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <stdlib.h>
+
 #include "Ecore_X.h"
 
 /* TODO:

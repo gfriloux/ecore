@@ -2,11 +2,13 @@
 # include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <sys/types.h>
 #include <dirent.h>
 
 #include <Ecore.h>
 #include "ecore_private.h"
+
 #ifdef BUILD_ECORE_EVAS_FB
 #include <Ecore_Fb.h>
 #include <ecore_fb_private.h>

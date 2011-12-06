@@ -4,7 +4,9 @@
 
 #ifdef HAVE_CONFIG_H
 # include <config.h>
-#endif /* ifdef HAVE_CONFIG_H */
+#endif
+
+#include <stdlib.h>
 
 #include "ecore_x_private.h"
 #include "ecore_x_randr.h"

@@ -1,6 +1,12 @@
+#ifdef HAVE_CONFIG_H
+# include <config.h>
+#endif
+
+#include <stdlib.h>
 #include <string.h>
-#include "ecore_evas_private.h"
+
 #include "Ecore_Evas.h"
+#include "ecore_evas_private.h"
 
 #ifdef BUILD_ECORE_EVAS_X11
 static int _ecore_evas_init_count = 0;
