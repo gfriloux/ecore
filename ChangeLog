@@ -368,3 +368,7 @@
 2011-12-03 Vincent Torri
 
 	* Fix the modifiers value (Windows XP)
+
+2011-12-07 Mike Blumenkrantz
+
+        * Allow SSL certificates to be loaded for STARTTLS
