@@ -80,3 +80,6 @@
         * Fix security hole in openssl certificate verification
         * Fix gnutls server-client certificate verification
 
+2011-12-16 Mike Blumenkrantz
+
+        * Fix possible 0 byte allocation in ecore-x
