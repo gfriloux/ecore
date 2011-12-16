@@ -380,3 +380,6 @@
         the same as timers and mark them as "just added" to skip in
         this run of animators
                 
+2011-12-16 Mike Blumenkrantz
+
+        * Fix possible 0 byte allocation in ecore-x
