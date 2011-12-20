@@ -388,4 +388,4 @@
 
         * Fix lack of move_resize_handling in ecore-evas-buffer
         * Fix coordinate translation when image mapped for ecore-evas-buffer
-                
+        * Patch ecore shutdown memory access issue with ecore_pipe and threads
