@@ -95,6 +95,12 @@ _ecore_evas_resize(Ecore_Evas *ee, int w, int h)
    if (ee->func.fn_resize) ee->func.fn_resize(ee);
 }
 
+static void
+_ecore_evas_move_resize(Ecore_Evas *ee, int x __UNUSED__, int y __UNUSED__, int w, int h)
+{
+   _ecore_evas_resize(ee, w, h);
+}
+
 int
 _ecore_evas_buffer_shutdown(void)
 {
@@ -170,6 +176,14 @@ _ecore_evas_buffer_coord_translate(Ecore_Evas *ee, Evas_Coord *x, Evas_Coord *y)
    if (fw < 1) fw = 1;
    if (fh < 1) fh = 1;
 
+   if (evas_object_map_get(ee->engine.buffer.image) &&
+       evas_object_map_enable_get(ee->engine.buffer.image))
+     {
+        fx = 0; fy = 0;
+        fw = ee->w; fh = ee->h;
+        ww = ee->w; hh = ee->h;
+     }
+   
    if ((fx == 0) && (fy == 0) && (fw == ww) && (fh == hh))
      {
         *x = (ee->w * (*x - xx)) / fw;
@@ -493,7 +507,7 @@ static Ecore_Evas_Engine_Func _ecore_buffer_engine_func =
      NULL,
      NULL,
      _ecore_evas_resize,
-     NULL,
+     _ecore_evas_move_resize,
      NULL,
      NULL,
      _ecore_evas_show,
