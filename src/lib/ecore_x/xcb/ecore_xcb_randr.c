@@ -1439,6 +1439,71 @@ ecore_x_randr_crtcs_get(Ecore_X_Window root,
 }
 
 /*
+ * @brief get the CRTCs, which display a certain window
+ * @param window window the displaying CRTCs shall be found for
+ * @param num the number of CRTCs displaying the window
+ * @return array of CRTCs that display a certain window. NULL if no CRTCs
+ * was found that displays the specified window.
+ */
+EAPI Ecore_X_Randr_Crtc *
+ecore_x_randr_current_crtc_get(Ecore_X_Window window,
+                                 int           *num)
+{
+#ifdef ECORE_XCB_RANDR
+   Ecore_X_Window root;
+   Eina_Rectangle w_geo, c_geo;
+   Ecore_X_Randr_Crtc *crtcs, *ret;
+   Ecore_X_Randr_Mode mode;
+   int ncrtcs, noutputs, i, nret = 0;
+   xcb_translate_coordinates_cookie_t cookie;
+   xcb_translate_coordinates_reply_t *trans;
+#endif
+
+   LOGFN(__FILE__, __LINE__, __FUNCTION__);
+   CHECK_XCB_CONN;
+
+#ifdef ECORE_XCB_RANDR
+   RANDR_CHECK_1_2_RET(NULL);
+
+   ecore_x_window_geometry_get(window, &w_geo.x, &w_geo.y, &w_geo.w, &w_geo.h);
+
+   root = ecore_x_window_root_get(window);
+   crtcs = ecore_x_randr_crtcs_get(root, &ncrtcs);
+   if (!crtcs) return NULL;
+
+   /* now get window RELATIVE to root window - thats what matters. */
+   cookie = xcb_translate_coordinates(_ecore_xcb_conn, window, root, 0, 0);
+   trans = xcb_translate_coordinates_reply(_ecore_xcb_conn, cookie, NULL);
+   w_geo.x = trans->dst_x;
+   w_geo.y = trans->dst_y;
+   free(trans);
+
+   for (i = 0, nret = 0; i < ncrtcs; i++)
+     {
+        /* if crtc is not enabled, don't bother about it any further */
+         mode = ecore_x_randr_crtc_mode_get(root, crtcs[i]);
+         if (mode == Ecore_X_Randr_None) continue;
+
+         ecore_x_randr_crtc_geometry_get(root, crtcs[i], &c_geo.x, &c_geo.y,
+                                         &c_geo.w, &c_geo.h);
+         if (eina_rectangles_intersect(&w_geo, &c_geo))
+           {
+              ret = realloc(ret, (++nret *
+                                   sizeof(Ecore_X_Randr_Output)));
+              ret[nret] = crtcs[i];
+           }
+     }
+   free(crtcs);
+
+   if (num) *num = nret;
+   return ret;
+
+#endif
+   if (num) *num = 0;
+   return NULL;
+}
+
+/*
  * @brief get a CRTC's outputs.
  * @param root the root window which's screen will be queried
  * @param num number of outputs referenced by given CRTC
