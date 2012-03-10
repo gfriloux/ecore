@@ -379,7 +379,7 @@
         animator keeps the animator handler in an infinite loop. Do
         the same as timers and mark them as "just added" to skip in
         this run of animators
-                
+
 2011-12-16 Mike Blumenkrantz
 
         * Fix possible 0 byte allocation in ecore-x
@@ -389,3 +389,11 @@
         * Fix lack of move_resize_handling in ecore-evas-buffer
         * Fix coordinate translation when image mapped for ecore-evas-buffer
         * Patch ecore shutdown memory access issue with ecore_pipe and threads
+
+2012-03-09  Carsten Haitzler (The Rasterman)
+
+	* Fix ecore_thread_feedback_run to work as the documentation and logic tell us.
+
+2012-03-10  Cedric Bail
+
+	* Fix double free at end of execution of Ecore_Thread with feedback.

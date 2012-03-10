@@ -677,6 +677,7 @@ _ecore_feedback_job(Ecore_Pipe *end_pipe,
 static void *
 _ecore_direct_worker(Ecore_Pthread_Worker *work)
 {
+   Ecore_Pthread_Worker *end;
    Ecore_Pthread_Data *pth;
 
 #ifdef EFL_POSIX_THREADS
@@ -700,27 +701,29 @@ _ecore_direct_worker(Ecore_Pthread_Worker *work)
    work->self = pth->thread;
    work->u.feedback_run.func_heavy((void *)work->data, (Ecore_Thread *)work);
 
+   end = work->u.feedback_run.direct_worker;
+   work->u.feedback_run.direct_worker = NULL;
+
    ecore_pipe_write(pth->p, &work, sizeof (Ecore_Pthread_Worker *));
 
-   work = work->u.feedback_run.direct_worker;
-   if (!work)
+   if (!end)
      {
         free(pth);
         return NULL;
      }
 
-   work->data = pth;
-   work->u.short_run.func_blocking = NULL;
-   work->func_end = (void *)_ecore_thread_end;
-   work->func_cancel = NULL;
-   work->cancel = EINA_FALSE;
-   work->feedback_run = EINA_FALSE;
-   work->kill = EINA_FALSE;
-   work->hash = NULL;
-   CDI(work->cond);
-   LKI(work->mutex);
+   end->data = pth;
+   end->u.short_run.func_blocking = NULL;
+   end->func_end = (void *)_ecore_thread_end;
+   end->func_cancel = NULL;
+   end->cancel = EINA_FALSE;
+   end->feedback_run = EINA_FALSE;
+   end->kill = EINA_FALSE;
+   end->hash = NULL;
+   CDI(end->cond);
+   LKI(end->mutex);
 
-   ecore_pipe_write(pth->p, &work, sizeof (Ecore_Pthread_Worker *));
+   ecore_pipe_write(pth->p, &end, sizeof (Ecore_Pthread_Worker *));
 
    return pth->p;
 }
@@ -1123,7 +1126,7 @@ ecore_thread_feedback_run(Ecore_Thread_Cb        func_heavy,
    worker->u.feedback_run.direct_pipe = NULL;
    worker->u.feedback_run.direct_worker = NULL;
 
-   if (!try_no_queue)
+   if (try_no_queue)
      {
         PH(t);
 
