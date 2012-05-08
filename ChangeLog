@@ -624,3 +624,11 @@
 2012-04-20  Vincent Torri
 
 	* Add override_set() support in ecore_evas_win32.
+
+2012-04-26 Carsten Haitzler (The Rasterman)
+
+        1.2.0 release
+
+2012-05-08  Cedric Bail
+
+	* Don't over allocate Ecore_Pipe during ecore_init/ecore_shutdown.
