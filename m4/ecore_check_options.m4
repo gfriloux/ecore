@@ -178,8 +178,8 @@ if test "x${_ecore_want_gnutls}" = "xyes" -o "x${_ecore_want_gnutls}" = "xauto" 
    if test "x$_ecore_have_gnutls" = "xyes";then
      AC_PATH_GENERIC([libgcrypt], [], [_ecore_have_gnutls="yes"], [_ecore_have_gnutls="no"])
         if test "x${_ecore_have_gnutls}" = "xyes" ; then
-           TLS_CFLAGS+=" ${LIBGCRYPT_CFLAGS}"
-           TLS_LIBS+=" ${LIBGCRYPT_LIBS}"
+           TLS_CFLAGS="${TLS_CFLAGS} ${LIBGCRYPT_CFLAGS}"
+           TLS_LIBS="${TLS_LIBS} ${LIBGCRYPT_LIBS}"
         fi
    fi
 
@@ -314,7 +314,7 @@ AC_ARG_ENABLE(cares,
   ])
 
 if test "x${_ecore_want_cares}" = "xyes" -o "x${_ecore_want_cares}" = "xauto" ; then
-   PKG_CHECK_MODULES([CARES], [libcares >= 1.6.1 libcares != 1.7.5],
+   PKG_CHECK_MODULES([CARES], [libcares >= 1.6.1],
      [_ecore_have_cares="yes"],
      [_ecore_have_cares="no"])
 fi
