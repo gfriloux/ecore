@@ -1,3 +1,4 @@
+
 #ifdef HAVE_CONFIG_H
 # include <config.h>
 #endif
@@ -445,44 +446,40 @@ static void
 _ecore_short_job(PH(thread))
 {
    Ecore_Pthread_Worker *work;
+   int cancel;
 
-   while (_ecore_pending_job_threads)
+   LKL(_ecore_pending_job_threads_mutex);
+   
+   if (!_ecore_pending_job_threads)
      {
-        int cancel;
-
-        LKL(_ecore_pending_job_threads_mutex);
-
-        if (!_ecore_pending_job_threads)
-          {
-             LKU(_ecore_pending_job_threads_mutex);
-             break;
-          }
-
-        work = eina_list_data_get(_ecore_pending_job_threads);
-        _ecore_pending_job_threads = eina_list_remove_list(_ecore_pending_job_threads,
-                                                           _ecore_pending_job_threads);
-
         LKU(_ecore_pending_job_threads_mutex);
-
-        LKL(work->cancel_mutex);
-        cancel = work->cancel;
-        LKU(work->cancel_mutex);
-        work->self = thread;
-        if (!cancel)
-          work->u.short_run.func_blocking((void *) work->data, (Ecore_Thread*) work);
-
-        if (work->reschedule)
-          {
-             work->reschedule = EINA_FALSE;
-
-             LKL(_ecore_pending_job_threads_mutex);
-             _ecore_pending_job_threads = eina_list_append(_ecore_pending_job_threads, work);
-             LKU(_ecore_pending_job_threads_mutex);
-          }
-        else
-          {
-             ecore_main_loop_thread_safe_call_async(_ecore_thread_handler, work);
-          }
+        return;
+     }
+   
+   work = eina_list_data_get(_ecore_pending_job_threads);
+   _ecore_pending_job_threads = eina_list_remove_list(_ecore_pending_job_threads,
+                                                      _ecore_pending_job_threads);
+   
+   LKU(_ecore_pending_job_threads_mutex);
+   
+   LKL(work->cancel_mutex);
+   cancel = work->cancel;
+   LKU(work->cancel_mutex);
+   work->self = thread;
+   if (!cancel)
+     work->u.short_run.func_blocking((void *) work->data, (Ecore_Thread*) work);
+   
+   if (work->reschedule)
+     {
+        work->reschedule = EINA_FALSE;
+        
+        LKL(_ecore_pending_job_threads_mutex);
+        _ecore_pending_job_threads = eina_list_append(_ecore_pending_job_threads, work);
+        LKU(_ecore_pending_job_threads_mutex);
+     }
+   else
+     {
+        ecore_main_loop_thread_safe_call_async(_ecore_thread_handler, work);
      }
 }
 
@@ -490,44 +487,40 @@ static void
 _ecore_feedback_job(PH(thread))
 {
    Ecore_Pthread_Worker *work;
-
-   while (_ecore_pending_job_threads_feedback)
+   int cancel;
+   
+   LKL(_ecore_pending_job_threads_mutex);
+   
+   if (!_ecore_pending_job_threads_feedback)
      {
-        int cancel;
-
-        LKL(_ecore_pending_job_threads_mutex);
-
-        if (!_ecore_pending_job_threads_feedback)
-          {
-             LKU(_ecore_pending_job_threads_mutex);
-             break;
-          }
-
-        work = eina_list_data_get(_ecore_pending_job_threads_feedback);
-        _ecore_pending_job_threads_feedback = eina_list_remove_list(_ecore_pending_job_threads_feedback,
-                                                                    _ecore_pending_job_threads_feedback);
-
         LKU(_ecore_pending_job_threads_mutex);
-
-        LKL(work->cancel_mutex);
-        cancel = work->cancel;
-        LKU(work->cancel_mutex);
-        work->self = thread;
-        if (!cancel)
-          work->u.feedback_run.func_heavy((void *) work->data, (Ecore_Thread *) work);
-
-        if (work->reschedule)
-          {
-             work->reschedule = EINA_FALSE;
-
-             LKL(_ecore_pending_job_threads_mutex);
-             _ecore_pending_job_threads_feedback = eina_list_append(_ecore_pending_job_threads_feedback, work);
-             LKU(_ecore_pending_job_threads_mutex);
-          }
-        else
-          {
-             ecore_main_loop_thread_safe_call_async(_ecore_thread_handler, work);
-          }
+        return;
+     }
+   
+   work = eina_list_data_get(_ecore_pending_job_threads_feedback);
+   _ecore_pending_job_threads_feedback = eina_list_remove_list(_ecore_pending_job_threads_feedback,
+                                                               _ecore_pending_job_threads_feedback);
+   
+   LKU(_ecore_pending_job_threads_mutex);
+   
+   LKL(work->cancel_mutex);
+   cancel = work->cancel;
+   LKU(work->cancel_mutex);
+   work->self = thread;
+   if (!cancel)
+     work->u.feedback_run.func_heavy((void *) work->data, (Ecore_Thread *) work);
+   
+   if (work->reschedule)
+     {
+        work->reschedule = EINA_FALSE;
+        
+        LKL(_ecore_pending_job_threads_mutex);
+        _ecore_pending_job_threads_feedback = eina_list_append(_ecore_pending_job_threads_feedback, work);
+        LKU(_ecore_pending_job_threads_mutex);
+     }
+   else
+     {
+        ecore_main_loop_thread_safe_call_async(_ecore_thread_handler, work);
      }
 }
 
@@ -605,8 +598,8 @@ _ecore_thread_worker(Ecore_Pthread_Data *pth)
    eina_sched_prio_drop();
 
 restart:
-   if (_ecore_pending_job_threads) _ecore_short_job(pth->thread);
-   if (_ecore_pending_job_threads_feedback) _ecore_feedback_job(pth->thread);
+   _ecore_short_job(pth->thread);
+   _ecore_feedback_job(pth->thread);
 
    /* FIXME: Check if there is feedback running task todo, and switch to feedback run handler. */
 
@@ -622,7 +615,7 @@ restart:
 #ifdef _WIN32
    Sleep(1); /* around 50ms */
 #else
-   usleep(200);
+   usleep(50);
 #endif
 
    LKL(_ecore_pending_job_threads_mutex);
@@ -1310,7 +1303,7 @@ ecore_thread_max_set(int num)
    EINA_MAIN_LOOP_CHECK_RETURN;
    if (num < 1) return;
    /* avoid doing something hilarious by blocking dumb users */
-   if (num >= (2 * eina_cpu_count())) return;
+   if (num >= (16 * eina_cpu_count())) num = 16 * eina_cpu_count();
 
    _ecore_thread_count_max = num;
 }
