@@ -96,3 +96,7 @@
 
         * Fix ecore_x_randr_modes_info_get to not cut off the trailing '\0'
 		anymore
+
+2012-06-06  Mike Blumenkrantz
+
+        * 1.0.2 release
