@@ -652,8 +652,11 @@
         to keep ticking off. also happens to be an issuw with
         iterating the mainloop.
         
-012-05-30  Mariusz Grzegorczyk
+2012-05-30  Mariusz Grzegorczyk
 
         * Small fix to ecore-evas buffer engine on resize to make the
         right kind of buffer cavas (ARGB32 vs RGB32).
                 
+2012-06-07  Mike Blumenkrantz
+
+        * 1.2.1 release
