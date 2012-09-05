@@ -888,3 +888,6 @@
 
         * Add Copy-N-Paste support for Ecore_Wayland.
 
+2012-09-05  Mike Blumenkrantz
+
+       * Fix crash that could occur in ecore_con_ssl with privkeys and certificates on failure
