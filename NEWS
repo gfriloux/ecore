@@ -14,6 +14,7 @@ Additions:
      - Add Ecore_X_Error_Code enumeration
      - ECORE_X_RANDR_OUTPUT_POLICY_ASK
      - Add API functions to get/set an Ecore_X window's profile
+     - Fix ecore_x_randr functions to work properly.
     * ecore_con:
      - ECORE_{CON,IPC}_NO_PROXY now available for disabling proxying on certain connections
      - New dns.c resolver backend for faster dns lookups
