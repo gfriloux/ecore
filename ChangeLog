@@ -888,6 +888,10 @@
 
         * Add Copy-N-Paste support for Ecore_Wayland.
 
+2012-08-30  Carsten Haitzler (The Rasterman)
+
+        1.7.0 release
+
 2012-09-05  Mike Blumenkrantz
 
        * Fix crash that could occur in ecore_con_ssl with privkeys and certificates on failure
@@ -901,3 +905,7 @@
 2012-09-07  Christopher Michael
 
        * Fix ecore_x_randr to actually return outputs properly.
+
+2012-09-08  Vincent Torri
+
+       * Fix readlink usage in ecore_file.
