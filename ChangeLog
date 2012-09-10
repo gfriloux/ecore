@@ -909,3 +909,7 @@
 2012-09-08  Vincent Torri
 
        * Fix readlink usage in ecore_file.
+
+2012-09-10  Christopher Michael
+
+       * Fix ecore_x_randr to actually return crtcs properly.
