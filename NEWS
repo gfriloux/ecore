@@ -1,4 +1,10 @@
-Ecore 1.7.0
+Ecore 1.7.1
+
+Changes since Ecore 1.7.0:
+--------------------------
+
+Fixes:
+    * ecore_evas rotation handling on some driver implementations
 
 Changes since Ecore 1.2.0:
 --------------------------
