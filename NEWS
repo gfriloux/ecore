@@ -21,6 +21,9 @@ Additions:
      - ECORE_X_RANDR_OUTPUT_POLICY_ASK
      - Add API functions to get/set an Ecore_X window's profile
      - Fix ecore_x_randr functions to work properly.
+     - Add missing atom strings for ECORE_X_ATOM_E_ILLUME_WINDOW_STATE
+     - Add missing atom strings for ECORE_X_ATOM_E_ILLUME_WINDOW_STATE_NORMAL
+     - Add missing atom strings for ECORE_X_ATOM_E_ILLUME_WINDOW_STATE_FLOATING
     * ecore_con:
      - ECORE_{CON,IPC}_NO_PROXY now available for disabling proxying on certain connections
      - New dns.c resolver backend for faster dns lookups
