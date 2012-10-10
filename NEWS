@@ -10,7 +10,8 @@ Fixes:
     * ecore_x_image_is_argb32_get() returns correctly given endianness.
     * ecore_imf ibus module potential segv fixed.
     * ecore_thread_feedback() memory allocation and corruption fixed.
-    
+    * send ECORE_X_EVENT_SELECTION_NOTIFY even if there is no data.
+
 Changes since Ecore 1.2.0:
 --------------------------
 
