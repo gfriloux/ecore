@@ -4,13 +4,17 @@ Changes since Ecore 1.7.0:
 --------------------------
 
 Fixes:
+    * ecore_con_ssl: fix crash on failure with privkeys and certificate.
+    * ecore_con_ssl: fix ssl connections.
+    * ecore_con: fix race condition with event from disconnected clients.
     * ecore_con_url: properly reschedule call to curl.
-    * ecore_evas rotation handling on some driver implementations
-    * ecore_file_escape_name() escape taba nd newline right.
+    * ecore_evas: rotation handling on some driver implementations
+    * ecore_file: ecore_file_escape_name() escape taba nd newline right.
     * ecore_x_image_is_argb32_get() returns correctly given endianness.
-    * ecore_imf ibus module potential segv fixed.
-    * ecore_thread_feedback() memory allocation and corruption fixed.
-    * send ECORE_X_EVENT_SELECTION_NOTIFY even if there is no data.
+    * ecore_x: fix ecore_x_randr.
+    * ecore_x: send ECORE_X_EVENT_SELECTION_NOTIFY even if there is no data.
+    * ecore_imf: ibus module potential segv fixed.
+    * ecore: ecore_thread_feedback() memory allocation and corruption fixed.
 
 Changes since Ecore 1.2.0:
 --------------------------
