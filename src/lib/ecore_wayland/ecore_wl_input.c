@@ -200,6 +200,7 @@ ecore_wl_input_cursor_from_name_set(Ecore_Wl_Input *input, const char *cursor_na
         wl_surface_attach(input->cursor_surface, buffer, 0, 0);
         wl_surface_damage(input->cursor_surface, 0, 0, 
                           cursor_image->width, cursor_image->height);
+        wl_surface_commit(input->cursor_surface);
 
         if (!input->cursor_frame_cb)
           _ecore_wl_input_cb_pointer_frame(input, NULL, 0);
@@ -234,8 +235,9 @@ _ecore_wl_input_add(Ecore_Wl_Display *ewd, unsigned int id)
    input->keyboard_focus = NULL;
 
    input->seat = 
-     wl_display_bind(ewd->wl.display, id, &wl_seat_interface);
+     wl_registry_bind(ewd->wl.registry, id, &wl_seat_interface, 1);
    wl_list_insert(ewd->inputs.prev, &input->link);
+
    wl_seat_add_listener(input->seat, 
                         &_ecore_wl_seat_listener, input);
    wl_seat_set_user_data(input->seat, input);
@@ -326,6 +328,7 @@ _ecore_wl_input_seat_handle_capabilities(void *data, struct wl_seat *seat, enum 
    Ecore_Wl_Input *input;
 
    if (!(input = data)) return;
+
    if ((caps & WL_SEAT_CAPABILITY_POINTER) && (!input->pointer))
      {
         input->pointer = wl_seat_get_pointer(seat);
@@ -694,16 +697,16 @@ _ecore_wl_input_cb_pointer_enter(void *data, struct wl_pointer *pointer __UNUSED
    input->display->serial = serial;
    input->pointer_enter_serial = serial;
 
-   if (!(win = wl_surface_get_user_data(surface))) return;
-
-   win->pointer_device = input;
-   input->pointer_focus = win;
-
-   /* _ecore_wl_input_mouse_move_send(input, win, input->timestamp); */
-   _ecore_wl_input_mouse_in_send(input, win, input->timestamp);
-
    /* The cursor on the surface is undefined until we set it */
    ecore_wl_input_cursor_from_name_set(input, "left_ptr");
+
+   if ((win = wl_surface_get_user_data(surface)))
+     {
+        win->pointer_device = input;
+        input->pointer_focus = win;
+
+        _ecore_wl_input_mouse_in_send(input, win, input->timestamp);
+     }
 
    /* NB: This whole 'if' below is a major HACK due to wayland's stupidness 
     * of not sending a mouse_up (or any notification at all for that matter) 
@@ -1181,12 +1184,12 @@ _ecore_wl_input_mouse_wheel_send(Ecore_Wl_Input *input, unsigned int axis, int v
    if (axis == WL_POINTER_AXIS_VERTICAL_SCROLL)
      {
         ev->direction = 0;
-        ev->z = -value;
+        ev->z = value;
      }
    else if (axis == WL_POINTER_AXIS_HORIZONTAL_SCROLL)
      {
         ev->direction = 1;
-        ev->z = -value;
+        ev->z = value;
      }
 
    if (input->grab)

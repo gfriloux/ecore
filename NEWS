@@ -20,6 +20,9 @@ Fixes:
     * ecore_x: send ECORE_X_EVENT_SELECTION_NOTIFY even if there is no data.
     * ecore_imf: ibus module potential segv fixed.
     * ecore: ecore_thread_feedback() memory allocation and corruption fixed.
+    * ecore_wayland:
+     - Update to work with latest wayland (0.99) from git.
+
 
 Changes since Ecore 1.2.0:
 --------------------------

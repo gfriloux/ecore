@@ -976,3 +976,8 @@
 2012-11-23 Luis Felipe Strano Moraes
 
 	1.7.2 release
+
+2012-10-16  Christopher Michael
+
+       * Update Ecore_Wayland to build & work with newest wayland (0.99) from
+       git
