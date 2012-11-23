@@ -22,6 +22,7 @@ Fixes:
     * ecore: ecore_thread_feedback() memory allocation and corruption fixed.
     * ecore_wayland:
      - Update to work with latest wayland (0.99) from git.
+     - Fix leak of struct wl_registry
 
 
 Changes since Ecore 1.2.0:

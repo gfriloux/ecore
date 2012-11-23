@@ -981,3 +981,8 @@
 
        * Update Ecore_Wayland to build & work with newest wayland (0.99) from
        git
+
+2012-11-23  Eduardo Lima (Etrunko)
+
+       * Fix small leak in of strcut wl_registry in Ecore Wayland
+
