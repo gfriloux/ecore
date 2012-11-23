@@ -685,8 +685,8 @@ _ecore_evas_wl_title_set(Ecore_Evas *ee, const char *title)
      {
         EE_Wl_Smart_Data *sd;
 
-        if (!(sd = evas_object_smart_data_get(ee->engine.wl.frame))) return;
-        evas_object_text_text_set(sd->text, ee->prop.title);
+        if ((sd = evas_object_smart_data_get(ee->engine.wl.frame)))
+          evas_object_text_text_set(sd->text, ee->prop.title);
      }
 
    if ((ee->prop.title) && (ee->engine.wl.win->shell_surface))
@@ -1238,7 +1238,6 @@ _ecore_evas_wl_smart_add(Evas_Object *obj)
    sd->h = 1;
 
    sd->frame = evas_object_rectangle_add(evas);
-   evas_object_is_frame_object_set(sd->frame, EINA_TRUE);
    evas_object_color_set(sd->frame, 249, 249, 249, 255);
    evas_object_smart_member_add(sd->frame, obj);
 
@@ -1247,6 +1246,7 @@ _ecore_evas_wl_smart_add(Evas_Object *obj)
    evas_object_text_style_set(sd->text, EVAS_TEXT_STYLE_PLAIN);
    evas_object_text_font_set(sd->text, "Sans", 10);
    evas_object_text_text_set(sd->text, "Smart Test");
+   evas_object_smart_member_add(sd->text, obj);
 
    evas_object_smart_data_set(obj, sd);
 }
