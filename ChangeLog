@@ -994,3 +994,7 @@
 2012-11-27  Alexey Yakovenko
 
 	* Fix ecore_evas_sdl window resize bug.
+
+2012-12-05  Robert David
+
+	* Fix Ecore_Evas_Extn on Solaris 11.

@@ -23,7 +23,7 @@ Fixes:
     * ecore_wayland:
      - Update to work with latest wayland (0.99) from git.
      - Fix leak of struct wl_registry
-
+    * ecore_evas: fix Ecore_Evas_Extn build on Solaris 11.
 
 Changes since Ecore 1.2.0:
 --------------------------
