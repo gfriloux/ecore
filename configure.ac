@@ -1509,7 +1509,6 @@ if test "x${have_ecore_con}" = "xyes" ; then
    if test "x${have_ipv6}" = "xyes" ; then
       AC_DEFINE(HAVE_IPV6, 1, [Define if IPV6 is supported])
    fi
-   AM_CONDITIONAL([HAVE_IPV6], [test "x${have_ipv6}" = "xyes"])
 
    ECORE_CHECK_CURL([${want_curl}],
       [
@@ -1547,8 +1546,10 @@ if test "x${have_ecore_con}" = "xyes" ; then
 
 fi
 
+
 EFL_CHECK_COMPILER_FLAGS([ECORE_CON], [-Wno-override-init -Wno-initializer-overrides])
 
+AM_CONDITIONAL([HAVE_IPV6], [test "x${have_ipv6}" = "xyes"])
 AM_CONDITIONAL([HAVE_CARES], [test "x${have_cares}" = "xyes"])
 
 # ecore_ipc
