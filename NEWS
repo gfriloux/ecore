@@ -1,3 +1,15 @@
+Ecore 1.7.3
+
+Changes since Ecore 1.7.2:
+--------------------------
+
+Fixes:
+    * Fix small leak in Ecore Wayland.
+    * Fix Ecore_Evas_SDL resize bug.
+    * Fix Ecore_Evas_Extn build on Solaris 11.
+    * Fix Wayland support to latest API.
+    * Don't leak fd on exec.
+
 Ecore 1.7.2
 
 Changes since Ecore 1.7.1:

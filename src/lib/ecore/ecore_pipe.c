@@ -147,6 +147,9 @@ ecore_pipe_add(Ecore_Pipe_Cb handler,
    p->handler = handler;
    p->data = data;
 
+   _ecore_fd_close_on_exec(fds[0]);
+   _ecore_fd_close_on_exec(fds[1]);
+
    fcntl(p->fd_read, F_SETFL, O_NONBLOCK);
    p->fd_handler = ecore_main_fd_handler_add(p->fd_read,
                                              ECORE_FD_READ,
