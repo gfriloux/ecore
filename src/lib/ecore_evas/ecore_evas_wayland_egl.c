@@ -929,10 +929,13 @@ _ecore_evas_wl_cb_mouse_in(void *data __UNUSED__, int type __UNUSED__, void *eve
    ee = ecore_event_window_match(ev->window);
    if ((!ee) || (ee->ignore_events)) return ECORE_CALLBACK_PASS_ON;
    if (ev->window != ee->prop.window) return ECORE_CALLBACK_PASS_ON;
+
    if (ee->func.fn_mouse_in) ee->func.fn_mouse_in(ee);
    ecore_event_evas_modifier_lock_update(ee->evas, ev->modifiers);
    evas_event_feed_mouse_in(ee->evas, ev->timestamp, NULL);
    _ecore_evas_mouse_move_process(ee, ev->x, ev->y, ev->timestamp);
+   ee->in = EINA_TRUE;
+
    return ECORE_CALLBACK_PASS_ON;
 }
 
