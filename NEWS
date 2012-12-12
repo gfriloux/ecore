@@ -5,6 +5,8 @@ Changes since Ecore 1.7.3:
 
 Fixes:
     * Fix build without IPv6.
+    * Fix possible memory corruption in xrandr EDID functions.
+
 
 Ecore 1.7.3
 

@@ -1011,3 +1011,6 @@
 
 	* Fix build without IPv6.
 
+2012-12-12  Daniel Willmann
+
+	* Fix possible memory corruption in xrandr EDID functions.
