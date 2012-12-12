@@ -26,7 +26,7 @@ endif
 
 if BUILD_ECORE_WIN32
 ECORE_WIN32_INC = -I$(top_srcdir)/src/lib/ecore_win32
-ECORE_WIN32_LIB = $(top_builddir)/src/lib/ecore_win32/libecore_win32.la
+ECORE_WIN32_LIB = $(top_builddir)/src/lib/ecore_win32/libecore_win32.la -lgdi32
 else
 ECORE_WIN32_INC =
 ECORE_WIN32_LIB =

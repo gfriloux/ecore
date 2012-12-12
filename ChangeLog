@@ -1014,3 +1014,8 @@
 2012-12-12  Daniel Willmann
 
 	* Fix possible memory corruption in xrandr EDID functions.
+
+2012-12-12  Nicolas Aguirre
+
+	* Fix build on win32
+
