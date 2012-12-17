@@ -1,7 +1,9 @@
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
+docdir=@docdir@
 
 Name: ecore-cocoa
 Description: E core library, Cocoa module

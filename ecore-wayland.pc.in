@@ -1,7 +1,9 @@
+PACKAGE_TARNAME=@PACKAGE_TARNAME@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
+docdir=@docdir@
 
 Name: ecore-wayland
 Description: E core library, Wayland module

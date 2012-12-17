@@ -197,13 +197,17 @@ if BUILD_ECORE_WAYLAND
 pkgconfig_DATA += ecore-wayland.pc
 endif
 
-.PHONY: doc coverage
+.PHONY: doc install-doc coverage
 
 # Documentation
 
 doc:
 	@echo "entering doc/"
 	make -C doc doc
+
+install-doc:
+	@echo "entering doc/"
+	make -C doc install-doc
 
 # Unit tests
 
