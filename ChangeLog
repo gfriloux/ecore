@@ -1027,3 +1027,7 @@
 2012-12-19 Luis Felip Strano Moraes
 
 	* Backport 81304 which fixes memory errors on ecore_evas_extn
+
+2012-12-19 Christopher Michael
+
+        * Fix XCB compile with screensaver support
