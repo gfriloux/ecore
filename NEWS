@@ -8,6 +8,7 @@ Fixes:
     * Fix build without IPv6.
     * Fix possible memory corruption in xrandr EDID functions.
     * Backport 81304, which fixes memory errors in ecore_evas_extn
+    * Fix big rendering/conversion problem in kvm/qemu 24bpp.
 
 
 Ecore 1.7.3
