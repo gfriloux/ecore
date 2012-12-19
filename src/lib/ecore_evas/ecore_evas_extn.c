@@ -478,7 +478,7 @@ static void
 _ecore_evas_extn_plug_image_obj_del(void *data, Evas *e __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
 {
    Ecore_Evas *ee = data;
-   if (ee) ecore_evas_free(ee);
+   ecore_evas_free(ee);
 }
 
 static void
@@ -529,6 +529,7 @@ _ecore_evas_extn_free(Ecore_Evas *ee)
    if (extn)
      {
         Ecore_Event_Handler *hdl;
+        Ipc_Data_Update *ipc;
 
         if (extn->file.have_lock)
           _ecore_evas_socket_unlock(ee);
@@ -556,6 +557,9 @@ _ecore_evas_extn_free(Ecore_Evas *ee)
              else
                shmfile_close(extn->file.shmfile);
           }
+
+        EINA_LIST_FREE(extn->file.updates, ipc)
+          free(ipc);
 
         EINA_LIST_FREE(extn->ipc.handlers, hdl)
           ecore_event_handler_del(hdl);
@@ -939,15 +943,6 @@ _ecore_evas_extn_cb_multi_move(void *data, Evas *e __UNUSED__, Evas_Object *obj 
 }
 
 static void
-_ecore_evas_extn_cb_free(void *data, Evas *e __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info __UNUSED__)
-{
-   Ecore_Evas *ee;
-
-   ee = data;
-   if (ee->driver) _ecore_evas_free(ee);
-}
-
-static void
 _ecore_evas_extn_cb_key_down(void *data, Evas *e __UNUSED__, Evas_Object *obj __UNUSED__, void *event_info)
 {
    Ecore_Evas *ee = data;
@@ -1281,6 +1276,7 @@ _ipc_server_data(void *data, int type __UNUSED__, void *event)
                      evas_object_image_data_update_add(ee->engine.buffer.image,
                                                        ipc->x, ipc->y,
                                                        ipc->w, ipc->h);
+                   free(ipc);
                 }
            }
          break;
@@ -1456,9 +1452,6 @@ ecore_evas_extn_plug_new(Ecore_Evas *ee_target)
    evas_object_event_callback_add(ee->engine.buffer.image,
                                   EVAS_CALLBACK_MULTI_MOVE,
                                   _ecore_evas_extn_cb_multi_move, ee);
-   evas_object_event_callback_add(ee->engine.buffer.image,
-                                  EVAS_CALLBACK_FREE,
-                                  _ecore_evas_extn_cb_free, ee);
    evas_object_event_callback_add(ee->engine.buffer.image,
                                   EVAS_CALLBACK_KEY_DOWN,
                                   _ecore_evas_extn_cb_key_down, ee);
