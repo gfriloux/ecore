@@ -1024,7 +1024,7 @@
 	* Add XML output to doc
 	* Add installation rule for doc
 
-2012-12-19 Luis Felip Strano Moraes
+2012-12-19 Luis Felipe Strano Moraes
 
 	* Backport 81304 which fixes memory errors on ecore_evas_extn
 
@@ -1037,3 +1037,8 @@
         * Fixed 24bpp ximage convert back from 24bpp to 32bpp in
         ecore-x. Only shows itself in qemu/kvm.
                 
+
+2012-12-21  Luis Felipe Strano Moraes
+
+	* 1.7.4 release
+
