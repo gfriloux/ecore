@@ -1,3 +1,11 @@
+Ecore 1.7.5
+
+Changes since Ecore 1.7.4:
+--------------------------
+
+Fixes:
+    * Fix ecore_con case where freeing server double-frees clients
+        
 Ecore 1.7.4
 
 Changes since Ecore 1.7.3:

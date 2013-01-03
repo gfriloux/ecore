@@ -1042,3 +1042,8 @@
 
 	* 1.7.4 release
 
+2013-01-03  Carsten Haitzler (The Rasterman)
+
+        * Fixed ecore_con case where freeing server double-frees clients
+
+        
