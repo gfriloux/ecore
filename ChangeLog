@@ -1047,3 +1047,6 @@
         * Fixed ecore_con case where freeing server double-frees clients
 
         
+2013-01-04  Luis Felipe Strano Moraes
+
+	* 1.7.5 release

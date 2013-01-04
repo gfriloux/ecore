@@ -8,8 +8,8 @@
 
    @mainpage Ecore
 
-   @version 1.7
-   @date 2000-2012
+   @version 1.7.5
+   @date 2000-2013
 
    Please see the @ref authors page for contact details.
 

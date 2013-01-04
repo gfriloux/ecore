@@ -5,6 +5,9 @@ Changes since Ecore 1.7.4:
 
 Fixes:
     * Fix ecore_con case where freeing server double-frees clients
+
+Improvements:
+    * New simplified chinese translation.
         
 Ecore 1.7.4
 
