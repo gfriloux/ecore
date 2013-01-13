@@ -569,7 +569,7 @@ ecore_x_selection_convert(Ecore_X_Atom selection,
 {
    Ecore_X_Selection_Intern *sel;
    Ecore_X_Selection_Converter *cnv;
-   void *data;
+   void *data = NULL;
    char *tgt_str;
 
    LOGFN(__FILE__, __LINE__, __FUNCTION__);
@@ -581,6 +581,7 @@ ecore_x_selection_convert(Ecore_X_Atom selection,
         if (cnv->target == target)
           {
              int r;
+
              r = cnv->convert(tgt_str, sel->data, sel->length, &data, size,
                               targtype, typesize);
              free(tgt_str);
@@ -593,6 +594,7 @@ ecore_x_selection_convert(Ecore_X_Atom selection,
                return EINA_FALSE;
           }
      }
+   free(tgt_str);
 
    /* ICCCM says "If the selection cannot be converted into a form based on the target (and parameters, if any), the owner should refuse the SelectionRequest as previously described." */
    return EINA_FALSE;

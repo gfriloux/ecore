@@ -1050,3 +1050,9 @@
 2013-01-04  Luis Felipe Strano Moraes
 
 	* 1.7.5 release
+
+2013-01-13  Boris Faure (billiob)
+
+	* Fixed condition based on uninitialized value in ecore_x_selection
+	(both xlib and xcb).
+	* Fixed a leaked when no selection converter matches.
