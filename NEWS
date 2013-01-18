@@ -1,3 +1,12 @@
+Ecore 1.7.6
+
+Changes since Ecore 1.7.5:
+--------------------------
+
+Additions:
+    * Add infrastructure to handle buggy touchscreen in Ecore_Input_Evas.
+
+
 Ecore 1.7.5
 
 Changes since Ecore 1.7.4:
@@ -8,6 +17,7 @@ Fixes:
 
 Improvements:
     * New simplified chinese translation.
+
         
 Ecore 1.7.4
 

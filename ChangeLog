@@ -1056,3 +1056,8 @@
 	* Fixed condition based on uninitialized value in ecore_x_selection
 	(both xlib and xcb).
 	* Fixed a leaked when no selection converter matches.
+
+2013-01-18  Cedric Bail
+
+        * Ecore_Input_Evas: add infrastructure to handle buggy touchscreen by using
+        environment variable ECORE_INPUT_FIX and ECORE_INPUT_TIMEOUT_FIX.
