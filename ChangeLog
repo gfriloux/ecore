@@ -1061,3 +1061,8 @@
 
         * Ecore_Input_Evas: add infrastructure to handle buggy touchscreen by using
         environment variable ECORE_INPUT_FIX and ECORE_INPUT_TIMEOUT_FIX.
+
+2013-01-21  Carsten Haitzler (The Rasterman)
+
+        * Fix xsync problem in ecore_x_image_get() where prior errors
+        can get caught.
