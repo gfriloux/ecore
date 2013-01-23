@@ -5,6 +5,7 @@ Changes since Ecore 1.7.5:
 
 Additions:
     * Add infrastructure to handle buggy touchscreen in Ecore_Input_Evas.
+    * Thread safety for ecore_pipe
 
 Fixes:
     * Fixed x11 error sync issue with ecore_x_image_get()

@@ -1066,3 +1066,7 @@
 
         * Fix xsync problem in ecore_x_image_get() where prior errors
         can get caught.
+
+2012-11-06  Mike McCormack
+
+        * Add thread safety to ecore_pipe

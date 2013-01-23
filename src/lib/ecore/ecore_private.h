@@ -170,6 +170,20 @@ void      *_ecore_event_signal_exit_new(void);
 void      *_ecore_event_signal_power_new(void);
 void      *_ecore_event_signal_realtime_new(void);
 
+Ecore_Pipe *_ecore_pipe_add(Ecore_Pipe_Cb handler,
+                            const void   *data);
+int         _ecore_pipe_wait(Ecore_Pipe *p,
+                             int message_count,
+                             double wait);
+void       *_ecore_pipe_del(Ecore_Pipe *p);
+
+Ecore_Fd_Handler *
+           _ecore_main_fd_handler_add(int fd,
+                                      Ecore_Fd_Handler_Flags flags,
+                                      Ecore_Fd_Cb func,
+                                      const void *data,
+                                      Ecore_Fd_Cb buf_func,
+                                      const void *buf_data);
 void      *_ecore_main_fd_handler_del(Ecore_Fd_Handler *fd_handler);
 
 Eina_Bool _ecore_fd_close_on_exec(int fd);
