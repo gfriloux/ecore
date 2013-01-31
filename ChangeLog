@@ -1070,3 +1070,7 @@
 2012-11-06  Mike McCormack
 
         * Add thread safety to ecore_pipe
+
+2013-01-31  Guillaume Friloux
+
+        * Fix a memory leak in ecore_con_dns
