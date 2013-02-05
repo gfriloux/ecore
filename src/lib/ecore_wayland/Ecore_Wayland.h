@@ -360,7 +360,7 @@ EAPI void ecore_wl_input_pointer_set(Ecore_Wl_Input *input, struct wl_surface *s
 EAPI void ecore_wl_input_cursor_from_name_set(Ecore_Wl_Input *input, const char *cursor_name);
 EAPI void ecore_wl_input_cursor_default_restore(Ecore_Wl_Input *input);
 
-EAPI struct wl_list ecore_wl_outputs_get(void);
+EAPI struct wl_list *ecore_wl_outputs_get(void);
 
 EAPI Ecore_Wl_Window *ecore_wl_window_new(Ecore_Wl_Window *parent, int x, int y, int w, int h, int buffer_type);
 EAPI void ecore_wl_window_free(Ecore_Wl_Window *win);

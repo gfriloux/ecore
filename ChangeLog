@@ -965,6 +965,10 @@
 
 	* Properly reschedule call to curl.
 
+2012-11-06  Mike McCormack
+
+        * Add thread safety to ecore_pipe
+
 2012-10-10 Michal Pakula vel Rutka
 
        * Fix: Send ECORE_X_EVENT_SELECTION_NOTIFY even if there is no data.
@@ -1067,10 +1071,14 @@
         * Fix xsync problem in ecore_x_image_get() where prior errors
         can get caught.
 
-2012-11-06  Mike McCormack
-
-        * Add thread safety to ecore_pipe
-
 2013-01-31  Guillaume Friloux
 
         * Fix a memory leak in ecore_con_dns
+
+2013-02-04  Eduardo Lima (Etrunko) <eduardo.lima@intel.com>
+
+        * ecore_wayland: Fix compilation with C++ compiler
+
+2013-02-05  Eduardo Lima (Etrunko) <eduardo.lima@intel.com>
+
+        * ecore_wayland: Fix return type of function ecore_wl_outputs_get()

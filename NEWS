@@ -8,7 +8,9 @@ Additions:
     * Thread safety for ecore_pipe
 
 Fixes:
-    * Fixed x11 error sync issue with ecore_x_image_get()
+    * Fixed x11 error sync issue with ecore_x_image_get().
+    * Fixed Ecore_Wayland to build with C++ compiler.
+    * Fixed return type of function ecore_wl_outputs_get().
 
 Ecore 1.7.5
 
@@ -21,7 +23,6 @@ Fixes:
 Improvements:
     * New simplified chinese translation.
 
-        
 Ecore 1.7.4
 
 Changes since Ecore 1.7.3:
