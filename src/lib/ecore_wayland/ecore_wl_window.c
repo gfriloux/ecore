@@ -478,6 +478,7 @@ ecore_wl_window_maximized_set(Ecore_Wl_Window *win, Eina_Bool maximized)
         _ecore_wl_window_configure_send(win, win->saved_allocation.w, 
                                         win->saved_allocation.h);
      }
+   win->edges = 0;
 }
 
 EAPI void 
@@ -504,6 +505,7 @@ ecore_wl_window_fullscreen_set(Ecore_Wl_Window *win, Eina_Bool fullscreen)
         _ecore_wl_window_configure_send(win, win->saved_allocation.w, 
                                         win->saved_allocation.h);
      }
+   win->edges = 0;
 }
 
 EAPI void 
@@ -650,7 +652,8 @@ _ecore_wl_window_cb_configure(void *data, struct wl_shell_surface *shell_surface
 
    if ((win->allocation.w != w) || (win->allocation.h != h))
      {
-        win->edges = edges;
+        if (win->type == ECORE_WL_WINDOW_TYPE_TOPLEVEL)
+          win->edges = edges;
         if (win->region.input) wl_region_destroy(win->region.input);
         win->region.input = NULL;
         if (win->region.opaque) wl_region_destroy(win->region.opaque);
