@@ -11,7 +11,8 @@ Fixes:
     * Fixed x11 error sync issue with ecore_x_image_get().
     * Fixed Ecore_Wayland to build with C++ compiler.
     * Fixed return type of function ecore_wl_outputs_get().
-
+    * Fix ecore_x_screen_is_composited/set() to work on multihead.
+    
 Ecore 1.7.5
 
 Changes since Ecore 1.7.4:
