@@ -12,7 +12,9 @@ Fixes:
     * Fixed Ecore_Wayland to build with C++ compiler.
     * Fixed return type of function ecore_wl_outputs_get().
     * Fix ecore_x_screen_is_composited/set() to work on multihead.
-    
+    * Fixed a memory leak in ecore_con_dns.
+    * Fixed memory usage of the internal buffer of Ecore_Con_Server.
+
 Ecore 1.7.5
 
 Changes since Ecore 1.7.4:

@@ -1087,3 +1087,7 @@
 
         * Fix ecore_x ecore_x_screen_is_composited/set() to work
         properly on multihead.
+
+2013-02-08  Guillaume Friloux <guillaume.friloux@asp64.com>
+
+        * ecore_con : Fix memory usage of the internal buffer
