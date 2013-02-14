@@ -1091,3 +1091,7 @@
 2013-02-08  Guillaume Friloux <guillaume.friloux@asp64.com>
 
         * ecore_con : Fix memory usage of the internal buffer
+
+2013-02-14  Raoul Hecky <raoul.hecky@gmail.com>
+
+	* ecore_evas: handle mouse and touch screen properly with FB backend.

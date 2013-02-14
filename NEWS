@@ -14,6 +14,7 @@ Fixes:
     * Fix ecore_x_screen_is_composited/set() to work on multihead.
     * Fixed a memory leak in ecore_con_dns.
     * Fixed memory usage of the internal buffer of Ecore_Con_Server.
+    * Fix handling of mouse and touch screen in Ecore_Evas_Fb.
 
 Ecore 1.7.5
 
