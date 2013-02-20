@@ -1853,7 +1853,7 @@ ecore_x_randr_output_edid_get(Ecore_X_Window root,
      return NULL;
 
    if (XRRGetOutputProperty (_ecore_x_disp, output, name,
-                             0, 100, False, False,
+                             0, 128, False, False,
                              AnyPropertyType,
                              &actual_type, &actual_format,
                              &nitems, &bytes_after, &prop_data) == Success)

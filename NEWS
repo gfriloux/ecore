@@ -15,6 +15,7 @@ Fixes:
     * Fixed a memory leak in ecore_con_dns.
     * Fixed memory usage of the internal buffer of Ecore_Con_Server.
     * Fix handling of mouse and touch screen in Ecore_Evas_Fb.
+    * Fix ecore-x edid fetch to ftech 128, not 100 bytes.
 
 Ecore 1.7.5
 

@@ -1095,3 +1095,8 @@
 2013-02-14  Raoul Hecky <raoul.hecky@gmail.com>
 
 	* ecore_evas: handle mouse and touch screen properly with FB backend.
+
+2013-02-20  Carsten Haitzler (The Rasterman)
+
+        * Fix ecore-x edid fetch to ftech 128, not 100 bytes.
+    
