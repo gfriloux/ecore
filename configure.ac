@@ -1642,23 +1642,6 @@ fi
 ECORE_CHECK_MODULE([imf-scim], [${want_ecore_imf}], [Imf_SCIM], [${ecore_imf_scim_deps}],
    [requirements_ecore_imf_scim="ecore-imf >= 1.7.5 ecore-x >= 1.7.5 ecore-input >= 1.7.5 ${requirements_ecore_imf_scim}"])
 
-# ecore_imf_ibus
-PKG_CHECK_MODULES([IBUS], [ibus-1.0 >= 1.4], [have_ibus="yes"], [have_ibus="no"])
-
-AM_CONDITIONAL(BUILD_ECORE_IMF_IBUS, false)
-ecore_imf_ibus_deps="no"
-echo "have_ecore_x_xlib: ${have_ecore_x_xlib}"
-if test    "x${have_ecore_imf}" = "xyes" \
-        -a "x${have_glib}" =  "xyes" \
-        -a "x${have_ibus}" =  "xyes" \
-        -a "x${have_ecore_input}" = "xyes" ; then
-   ecore_imf_ibus_deps="yes"
-   AC_DEFINE(BUILD_ECORE_IMF_IBUS, 1, [Ecore Imf IBUS Support])
-fi
-
-ECORE_CHECK_MODULE([imf-ibus], [${want_ecore_imf}], [Imf_IBUS], [${ecore_imf_ibus_deps}],
-   [requirements_ecore_imf_ibus="ecore-imf >= 1.7.5 ecore-x >= 1.7.5 ecore-input >= 1.7.5 ${requirements_ecore_imf_ibus}"])
-
 ## Graphic systems
 
 # ecore_x{cb}
@@ -1950,6 +1933,24 @@ ECORE_EVAS_CHECK_MODULE([psl1ght],
    [PSL1GHT],
    [${have_ecore_psl1ght}],
    [requirements_ecore_evas="ecore-psl1ght >= 1.7.5 ${requirements_ecore_evas}"])
+
+# ecore_imf_ibus
+PKG_CHECK_MODULES([IBUS], [ibus-1.0 >= 1.4], [have_ibus="yes"], [have_ibus="no"])
+
+AM_CONDITIONAL(BUILD_ECORE_IMF_IBUS, false)
+ecore_imf_ibus_deps="no"
+echo "have_ecore_x_xlib: ${have_ecore_x_xlib}"
+if test    "x${have_ecore_imf}" = "xyes" \
+        -a "x${have_ecore_evas}" = "xyes" \
+        -a "x${have_glib}" =  "xyes" \
+        -a "x${have_ibus}" =  "xyes" \
+        -a "x${have_ecore_input}" = "xyes" ; then
+   ecore_imf_ibus_deps="yes"
+   AC_DEFINE(BUILD_ECORE_IMF_IBUS, 1, [Ecore Imf IBUS Support])
+fi
+
+ECORE_CHECK_MODULE([imf-ibus], [${want_ecore_imf}], [Imf_IBUS], [${ecore_imf_ibus_deps}],
+   [requirements_ecore_imf_ibus="ecore-imf >= 1.7.5 ecore-x >= 1.7.5 ecore-input >= 1.7.5 ${requirements_ecore_imf_ibus}"])
 
 ### WAYLAND
 
