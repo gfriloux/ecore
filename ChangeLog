@@ -1099,4 +1099,8 @@
 2013-02-20  Carsten Haitzler (The Rasterman)
 
         * Fix ecore-x edid fetch to ftech 128, not 100 bytes.
-    
+
+2013-02-28  U. Artie Eoff (uartie)
+
+        * ecore_wayland: Add ecore_wl_registry_get
+        * ecore_wayland: Add ecore_wl_globals_get

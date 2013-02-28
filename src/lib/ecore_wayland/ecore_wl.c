@@ -289,6 +289,18 @@ ecore_wl_display_get(void)
    return _ecore_wl_disp->wl.display;
 }
 
+EAPI struct wl_list *
+ecore_wl_globals_get(void)
+{
+   return &(_ecore_wl_disp->globals);
+}
+
+EAPI struct wl_registry *
+ecore_wl_registry_get(void)
+{
+   return _ecore_wl_disp->wl.registry;
+}
+
 /**
  * Retrieves the size of the current screen.
  * 
@@ -500,6 +512,9 @@ _ecore_wl_cb_handle_global(void *data, struct wl_registry *registry, unsigned in
    ewd = data;
 
    global = malloc(sizeof(*global));
+
+   memset(global, 0, sizeof(Ecore_Wl_Global));
+
    global->id = id;
    global->interface = strdup(interface);
    global->version = version;
