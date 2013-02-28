@@ -33,6 +33,8 @@ extern "C" {
 typedef struct _Ecore_Wl_Display Ecore_Wl_Display;
 typedef struct _Ecore_Wl_Output Ecore_Wl_Output;
 typedef struct _Ecore_Wl_Input Ecore_Wl_Input;
+typedef struct _Ecore_Wl_Global Ecore_Wl_Global;
+
 # ifndef _ECORE_WAYLAND_WINDOW_PREDEF
 typedef struct _Ecore_Wl_Window Ecore_Wl_Window;
 # endif
@@ -74,6 +76,14 @@ enum _Ecore_Wl_Window_Buffer_Type
 typedef enum _Ecore_Wl_Window_Type Ecore_Wl_Window_Type;
 typedef enum _Ecore_Wl_Window_Buffer_Type Ecore_Wl_Window_Buffer_Type;
 
+struct _Ecore_Wl_Global
+{
+   unsigned int id;
+   char *interface;
+   unsigned int version;
+   struct wl_list link;
+};
+
 struct _Ecore_Wl_Display
 {
    struct 
@@ -95,6 +105,7 @@ struct _Ecore_Wl_Display
 
    struct wl_list inputs;
    struct wl_list outputs;
+   struct wl_list globals;
 
    struct
      {
