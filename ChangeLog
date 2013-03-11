@@ -1104,3 +1104,7 @@
 
         * ecore_wayland: Add ecore_wl_registry_get
         * ecore_wayland: Add ecore_wl_globals_get
+
+2013-03-11  Mike Blumenkrantz
+
+        * cleaned up gnutls session init
