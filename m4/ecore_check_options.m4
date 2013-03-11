@@ -165,14 +165,14 @@ AC_ARG_ENABLE([gnutls],
    ])
 
 if test "x${_ecore_want_gnutls}" = "xyes" -o "x${_ecore_want_gnutls}" = "xauto" ; then
-   PKG_CHECK_MODULES([TLS], [gnutls >= 2.10.2],
+   PKG_CHECK_MODULES([TLS], [gnutls >= 2.12.16],
       [
        AC_DEFINE([USE_GNUTLS], [1], [Use GnuTLS])
        _ecore_have_gnutls="yes"
       ],
       [_ecore_have_gnutls="no"])
    # for ecore_con_ssl.c
-   PKG_CHECK_MODULES([TLS2], [gnutls >= 2.10.2],
+   PKG_CHECK_MODULES([TLS2], [gnutls >= 2.12.16],
       [AC_DEFINE(USE_GNUTLS2, 1, [Use GnuTLS 2 or higher])],
       [dummy="no"])
    if test "x$_ecore_have_gnutls" = "xyes";then
