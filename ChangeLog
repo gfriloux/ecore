@@ -1108,3 +1108,7 @@
 2013-03-11  Mike Blumenkrantz
 
         * cleaned up gnutls session init
+
+2013-03-12  Mike Blumenkrantz
+
+        * fix hosts file use with ecore-con and dns.c
