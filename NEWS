@@ -18,6 +18,8 @@ Fixes:
     * Fix ecore-x edid fetch to ftech 128, not 100 bytes.
     * cleaned up gnutls session init
     * fix hosts file use with ecore-con and dns.c
+    * fix use of ecore_con_*_flush functions with unconnected objects
+    * fix setting of write flags on ecore-con servers during connect
 
 Ecore 1.7.5
 
