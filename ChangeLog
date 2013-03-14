@@ -1113,7 +1113,7 @@
 
         * fix hosts file use with ecore-con and dns.c
 
-2013-03-12  Mike Blumenkrantz
+2013-03-14  Mike Blumenkrantz
 
         * fix use of ecore_con_*_flush functions with unconnected objects
         * fix setting of write flags on ecore-con servers during connect
