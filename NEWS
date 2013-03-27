@@ -20,6 +20,7 @@ Fixes:
     * fix hosts file use with ecore-con and dns.c
     * fix use of ecore_con_*_flush functions with unconnected objects
     * fix setting of write flags on ecore-con servers during connect
+    * fix ecore_con_url download speed bug
 
 Ecore 1.7.5
 
