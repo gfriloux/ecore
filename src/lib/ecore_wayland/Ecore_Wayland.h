@@ -127,6 +127,7 @@ struct _Ecore_Wl_Output
    Ecore_Wl_Display *display;
    struct wl_output *output;
    Eina_Rectangle allocation;
+   int transform;
    int mw, mh;
    struct wl_list link;
 

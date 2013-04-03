@@ -320,6 +320,22 @@ ecore_wl_screen_size_get(int *w, int *h)
 
    if (!_ecore_wl_disp->output) return;
 
+   switch (_ecore_wl_disp->output->transform)
+     {
+      case WL_OUTPUT_TRANSFORM_90:
+      case WL_OUTPUT_TRANSFORM_270:
+      case WL_OUTPUT_TRANSFORM_FLIPPED_90:
+      case WL_OUTPUT_TRANSFORM_FLIPPED_270:
+         /* Swap width and height */
+         if (w) *w = _ecore_wl_disp->output->allocation.h;
+         if (h) *h = _ecore_wl_disp->output->allocation.w;
+         break;
+      default:
+         if (w) *w = _ecore_wl_disp->output->allocation.w;
+         if (h) *h = _ecore_wl_disp->output->allocation.h;
+     }
+
+
    if (w) *w = _ecore_wl_disp->output->allocation.w;
    if (h) *h = _ecore_wl_disp->output->allocation.h;
 }
