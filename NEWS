@@ -6,6 +6,9 @@ Changes since Ecore 1.7.5:
 Additions:
     * Add infrastructure to handle buggy touchscreen in Ecore_Input_Evas.
     * Thread safety for ecore_pipe
+    * ecore_wayland:
+     - Add ecore_wl_registry_get;
+     - Add ecore_wl_globals_get.
 
 Fixes:
     * Fixed x11 error sync issue with ecore_x_image_get().
@@ -21,6 +24,7 @@ Fixes:
     * fix use of ecore_con_*_flush functions with unconnected objects
     * fix setting of write flags on ecore-con servers during connect
     * fix ecore_con_url download speed bug
+    * fix wayland window resize using meta + middle click.
 
 Ecore 1.7.5
 

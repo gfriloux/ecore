@@ -1077,9 +1077,18 @@
 
         * ecore_wayland: Fix compilation with C++ compiler
 
+2013-02-04  Rafael Antognolli
+
+        * ecore_evas/wayland_egl: Fix window resize when using meta+middle
+        click.
+
 2013-02-05  Eduardo Lima (Etrunko) <eduardo.lima@intel.com>
 
         * ecore_wayland: Fix return type of function ecore_wl_outputs_get()
+
+2013-02-06  Rafael Antognolli
+
+        * ecore/wayland: Always send the mouse button event.
 
 2013-02-08  Carsten Haitzler (The Rasterman)
 
@@ -1089,6 +1098,10 @@
 2013-02-08  Guillaume Friloux <guillaume.friloux@asp64.com>
 
         * ecore_con : Fix memory usage of the internal buffer
+
+2013-02-08  Rafael Antognolli
+
+        * ecore/wayland: Don't use edge info for resizing in some cases.
 
 2013-02-14  Raoul Hecky <raoul.hecky@gmail.com>
 
@@ -1119,3 +1132,7 @@
 2013-03-27  Cedric Bail
 
 	* fix ecore_con_url download speed
+
+2013-04-02  Rafael Antognolli
+
+        * ecore/wayland: Fix screen geometry when it is rotated.
