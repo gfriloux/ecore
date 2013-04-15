@@ -1140,3 +1140,15 @@
 2013-04-04  Rafael Antognolli
 
         * 1.7.6 release
+
+2013-04-08  Rafael Antognolli
+
+        * ecore/wayland: Actually wait for the sync callback on
+        ecore_wl_sync().
+        * ecore/wayland: Sync before assuming that there's no output on
+        ecore_evas_screen_geometry_get().
+
+2013-04-15  Rafael Antognolli
+
+        * ecore_evas/wayland_shm: Attach the buffer before adding damage.
+        * ecore_evas/wayland_shm: Backport frame_callback implementation.
