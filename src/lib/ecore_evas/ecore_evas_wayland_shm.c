@@ -960,10 +960,12 @@ _ecore_evas_wl_render(Ecore_Evas *ee)
 
              LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
+             ecore_wl_window_buffer_attach(ee->engine.wl.win,
+                                           ee->engine.wl.buffer, 0, 0);
              EINA_LIST_FOREACH(updates, l, r) 
                ecore_wl_window_damage(ee->engine.wl.win, 
                                       r->x, r->y, r->w, r->h);
-
+             ecore_wl_window_commit(ee->engine.wl.win);
              ecore_wl_flush();
 
              evas_render_updates_free(updates);
