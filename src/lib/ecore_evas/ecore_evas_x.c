@@ -2635,7 +2635,8 @@ static void
 _ecore_evas_x_iconified_set(Ecore_Evas *ee, int on)
 {
    if (ee->prop.iconified == on) return;
-   ee->prop.iconified = on;
+   if (((ee->should_be_visible) && (!ee->visible)) || (!ee->visible))
+     ee->prop.iconified = on;
    _ecore_evas_x_hints_update(ee);
    if (on)
      ecore_x_icccm_iconic_request_send(ee->prop.window, ee->engine.x.win_root);
@@ -2657,7 +2658,7 @@ static void
 _ecore_evas_x_withdrawn_set(Ecore_Evas *ee, int withdrawn)
 {
    if (ee->prop.withdrawn == withdrawn) return;
-   ee->prop.withdrawn = withdrawn;
+   // ee->prop.withdrawn = withdrawn;
    _ecore_evas_x_hints_update(ee);
 }
 
@@ -2671,7 +2672,7 @@ _ecore_evas_x_sticky_set(Ecore_Evas *ee, int sticky)
     * property change event.
     * ee->prop.sticky = sticky;
     */
-   ee->engine.x.state.sticky = sticky;
+   // ee->engine.x.state.sticky = sticky;
    if (ee->should_be_visible)
      ecore_x_netwm_state_request_send(ee->prop.window, ee->engine.x.win_root,
                                       ECORE_X_WINDOW_STATE_STICKY, -1, sticky);
@@ -2739,7 +2740,7 @@ _ecore_evas_x_maximized_set(Ecore_Evas *ee, int on)
    if (ee->prop.maximized == on) return;
    ee->engine.x.state.maximized_h = 1;
    ee->engine.x.state.maximized_v = 1;
-   ee->prop.maximized = on;
+   // ee->prop.maximized = on;
    if (ee->should_be_visible)
      {
         ecore_x_netwm_state_request_send(ee->prop.window, ee->engine.x.win_root,
