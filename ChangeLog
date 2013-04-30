@@ -1152,3 +1152,6 @@
 
         * ecore_evas/wayland_shm: Attach the buffer before adding damage.
         * ecore_evas/wayland_shm: Backport frame_callback implementation.
+
+2013-04-30  Rafael Antognolli
+        * ecore_evas/wayland_shm: Don't destroy a non-released buffer.

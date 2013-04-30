@@ -547,8 +547,18 @@ _ecore_evas_wl_resize(Ecore_Evas *ee, int w, int h)
         if (ee->engine.wl.frame)
           evas_object_resize(ee->engine.wl.frame, w, h);
 
-        if (ee->engine.wl.buffer) wl_buffer_destroy(ee->engine.wl.buffer);
-        ee->engine.wl.buffer = NULL;
+        if (ee->engine.wl.buffer)
+          {
+             if(!ee->engine.wl.buffer_valid)
+               {
+                  wl_buffer_destroy(ee->engine.wl.buffer);
+               }
+             else
+               {
+                  ee->engine.wl.buffer_valid = EINA_FALSE;
+               }
+             ee->engine.wl.buffer = NULL;
+          }
 
         _ecore_evas_wl_ensure_pool_size(ee, w, h);
 
@@ -569,8 +579,6 @@ _ecore_evas_wl_resize(Ecore_Evas *ee, int w, int h)
           {
 //             if (!ee->prop.fullscreen)
                ecore_wl_window_update_size(ee->engine.wl.win, w, h);
-             ecore_wl_window_buffer_attach(ee->engine.wl.win, 
-                                           ee->engine.wl.buffer, 0, 0);
           }
 
         if (ee->func.fn_resize) ee->func.fn_resize(ee);
@@ -652,6 +660,7 @@ _ecore_evas_wl_show(Ecore_Evas *ee)
      {
         ecore_wl_window_show(ee->engine.wl.win);
         ecore_wl_window_update_size(ee->engine.wl.win, ee->w, ee->h);
+        ee->engine.wl.buffer_valid = EINA_TRUE;
         ecore_wl_window_buffer_attach(ee->engine.wl.win, 
                                       ee->engine.wl.buffer, 0, 0);
 
@@ -899,6 +908,7 @@ _ecore_evas_wl_alpha_set(Ecore_Evas *ee, int alpha)
    if (ee->engine.wl.win)
      {
         ecore_wl_window_update_size(ee->engine.wl.win, ee->w, ee->h);
+        ee->engine.wl.buffer_valid = EINA_TRUE;
         ecore_wl_window_buffer_attach(ee->engine.wl.win, 
                                       ee->engine.wl.buffer, 0, 0);
      }
@@ -938,6 +948,7 @@ _ecore_evas_wl_transparent_set(Ecore_Evas *ee, int transparent)
    if (ee->engine.wl.win)
      {
         ecore_wl_window_update_size(ee->engine.wl.win, ee->w, ee->h);
+        ee->engine.wl.buffer_valid = EINA_TRUE;
         ecore_wl_window_buffer_attach(ee->engine.wl.win, 
                                       ee->engine.wl.buffer, 0, 0);
      }
@@ -1007,6 +1018,7 @@ _ecore_evas_wl_render(Ecore_Evas *ee)
 
                   LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
+                  ee->engine.wl.buffer_valid = EINA_TRUE;
                   ecore_wl_window_buffer_attach(ee->engine.wl.win,
                                                 ee->engine.wl.buffer, 0, 0);
                   EINA_LIST_FOREACH(updates, l, r)
@@ -1097,6 +1109,22 @@ _ecore_evas_wl_shm_pool_create(int size, void **data)
    return pool;
 }
 
+static void
+_ecore_evas_wl_buffer_release(void *data, struct wl_buffer *buffer)
+{
+   Ecore_Evas *ee = data;
+
+   if (ee->engine.wl.buffer == buffer)
+     ee->engine.wl.buffer_valid = EINA_FALSE;
+   else
+     wl_buffer_destroy(buffer);
+}
+
+static const struct wl_buffer_listener _buffer_listener_release =
+{
+   _ecore_evas_wl_buffer_release
+};
+
 static void 
 _ecore_evas_wl_buffer_new(Ecore_Evas *ee, struct wl_shm_pool *pool)
 {
@@ -1110,8 +1138,11 @@ _ecore_evas_wl_buffer_new(Ecore_Evas *ee, struct wl_shm_pool *pool)
 
    stride = (ee->w * sizeof(int));
 
-   ee->engine.wl.buffer = 
+   ee->engine.wl.buffer =
      wl_shm_pool_create_buffer(pool, 0, ee->w, ee->h, stride, format);
+
+   wl_buffer_add_listener(ee->engine.wl.buffer,
+                          &_buffer_listener_release, ee);
 }
 
 void 

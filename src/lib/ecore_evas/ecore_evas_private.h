@@ -289,6 +289,7 @@ struct _Ecore_Evas_Engine
         size_t pool_size;
         void *pool_data;
         struct wl_buffer *buffer;
+        Eina_Bool buffer_valid;
 # endif
 
      } wl;
