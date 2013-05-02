@@ -758,6 +758,8 @@ _ecore_evas_wl_maximized_set(Ecore_Evas *ee, int max)
    if (ee->prop.maximized == max) return;
    ee->prop.maximized = max;
    ecore_wl_window_maximized_set(ee->engine.wl.win, max);
+   if (ee->func.fn_state_change)
+     ee->func.fn_state_change(ee);
 }
 
 static void 
@@ -769,6 +771,8 @@ _ecore_evas_wl_fullscreen_set(Ecore_Evas *ee, int full)
    if (ee->prop.fullscreen == full) return;
    ee->prop.fullscreen = full;
    ecore_wl_window_fullscreen_set(ee->engine.wl.win, full);
+   if (ee->func.fn_state_change)
+     ee->func.fn_state_change(ee);
 }
 
 static void 
