@@ -814,6 +814,10 @@ _ecore_evas_wl_transparent_set(Ecore_Evas *ee, int transparent)
    if (!ee) return;
    if ((ee->transparent == transparent)) return;
    ee->transparent = transparent;
+
+   if (ee->engine.wl.win)
+     ecore_wl_window_transparent_set(ee->engine.wl.win, transparent);
+
    if (!ee->visible) return;
    if ((einfo = (Evas_Engine_Info_Wayland_Egl *)evas_engine_info_get(ee->evas)))
      {
