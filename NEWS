@@ -1,3 +1,15 @@
+Ecore 1.7.7
+
+Changes since Ecore 1.7.6:
+--------------------------
+Additions:
+    * ecore_evas/wayland_shm: Backport frame_callback implementation.
+
+Fixes:
+    * ecore_evas/wayland_shm: Attach the buffer before adding damage.
+    * ecore_evas/wayland_shm: Don't destroy a non-released buffer.
+    * ecore_evas/x: Backport fixes on window properties handling.
+
 Ecore 1.7.6
 
 Changes since Ecore 1.7.5:
