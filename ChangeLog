@@ -1154,4 +1154,17 @@
         * ecore_evas/wayland_shm: Backport frame_callback implementation.
 
 2013-04-30  Rafael Antognolli
+
         * ecore_evas/wayland_shm: Don't destroy a non-released buffer.
+
+2013-05-11  Rafael Antognolli
+
+        * 1.7.7 release
+
+2013-05-21	Daniel Willmann
+
+				* Backport (6d54f46) from Raster:
+        Ecore-X: Fix selection parser to not use longs - wrong on
+        64bit as the rest of ecore-x keeps types to their REAL sizes (ints),
+        but xlib uses longs (change size - eg 64bit even though protocol-wise
+        the data is DEFINEd as 32bit)

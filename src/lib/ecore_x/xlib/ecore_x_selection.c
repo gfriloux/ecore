@@ -984,12 +984,12 @@ _ecore_x_selection_parser_targets(const char *target __UNUSED__,
                                   int format __UNUSED__)
 {
    Ecore_X_Selection_Data_Targets *sel;
-   unsigned long *targets;
+   int *targets;
    int i;
 
    sel = calloc(1, sizeof(Ecore_X_Selection_Data_Targets));
    if (!sel) return NULL;
-   targets = (unsigned long *)data;
+   targets = data;
 
    sel->num_targets = size - 2;
    sel->targets = malloc((size - 2) * sizeof(char *));

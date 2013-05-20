@@ -1,3 +1,10 @@
+Changes since Ecore 1.7.7:
+--------------------------
+Additions:
+
+Fixes:
+    * Ecore-X: Fix selection parser to not overrun buffer read by using longs on 64bit.
+
 Ecore 1.7.7
 
 Changes since Ecore 1.7.6:
