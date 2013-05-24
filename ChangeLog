@@ -1175,3 +1175,5 @@
         * Fix use of ecore_con_client_timeout_set() and
           ecore_con_server_timeout_set() that makes timeout on connections
           even if you sent data.
+        * Fix cl->start_time (initialization missing). So now 
+          ecore_con_client_uptime_get() is working.

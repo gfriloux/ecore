@@ -4,6 +4,11 @@ Additions:
 
 Fixes:
     * Ecore-X: Fix selection parser to not overrun buffer read by using longs on 64bit.
+    * Fix use of ecore_con_server_client_limit_set() (counter never decreased).
+    * Fix use of ecore_con_client_timeout_set() and ecore_con_server_timeout_set() that makes timeout on 
+      connections even if you sent data.
+    * Fix cl->start_time (initialization missing). So now
+      ecore_con_client_uptime_get() is working.
 
 Ecore 1.7.7
 
