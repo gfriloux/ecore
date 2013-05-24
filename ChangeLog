@@ -1177,3 +1177,7 @@
           even if you sent data.
         * Fix cl->start_time (initialization missing). So now 
           ecore_con_client_uptime_get() is working.
+
+2013-05-24  Daniel Willmann
+        * Fix srv->start_time (initialization missing). So now 
+          ecore_con_server_uptime_get() is working for plain TCP connections.
