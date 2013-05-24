@@ -1168,3 +1168,10 @@
         64bit as the rest of ecore-x keeps types to their REAL sizes (ints),
         but xlib uses longs (change size - eg 64bit even though protocol-wise
         the data is DEFINEd as 32bit)
+
+2013-05-24  Guillaume Friloux
+        * Fix use of ecore_con_server_client_limit_set() (counter never
+          decreased).
+        * Fix use of ecore_con_client_timeout_set() and
+          ecore_con_server_timeout_set() that makes timeout on connections
+          even if you sent data.
