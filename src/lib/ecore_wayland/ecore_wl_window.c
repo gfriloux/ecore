@@ -117,8 +117,7 @@ ecore_wl_window_new(Ecore_Wl_Window *parent, int x, int y, int w, int h, int buf
    win->allocation.h = h;
    win->saved_allocation = win->allocation;
    win->transparent = EINA_FALSE;
-   /* win->type = ECORE_WL_WINDOW_TYPE_TOPLEVEL; */
-   win->type = ECORE_WL_WINDOW_TYPE_NONE;
+   win->type = ECORE_WL_WINDOW_TYPE_TOPLEVEL;
    win->buffer_type = buffer_type;
    win->id = _win_id++;
 
@@ -368,10 +367,13 @@ ecore_wl_window_show(Ecore_Wl_Window *win)
    wl_surface_set_user_data(win->surface, win);
    /* wl_surface_add_listener(win->surface, &_ecore_wl_surface_listener, win); */
 
-   win->shell_surface = 
-     wl_shell_get_shell_surface(_ecore_wl_disp->wl.shell, win->surface);
-   wl_shell_surface_add_listener(win->shell_surface, 
-                                 &_ecore_wl_shell_surface_listener, win);
+   if (win->type != ECORE_WL_WINDOW_TYPE_NONE)
+     {
+        win->shell_surface =
+           wl_shell_get_shell_surface(_ecore_wl_disp->wl.shell, win->surface);
+           wl_shell_surface_add_listener(win->shell_surface,
+                                         &_ecore_wl_shell_surface_listener, win);
+     }
 
    switch (win->type)
      {
@@ -395,9 +397,6 @@ ecore_wl_window_show(Ecore_Wl_Window *win)
                                    win->parent->surface, 
                                    win->allocation.x, win->allocation.y, 0);
         break;
-      case ECORE_WL_WINDOW_TYPE_NONE:
-        win->type = ECORE_WL_WINDOW_TYPE_TOPLEVEL;
-        /* fallthrough */
       case ECORE_WL_WINDOW_TYPE_TOPLEVEL:
         wl_shell_surface_set_toplevel(win->shell_surface);
         break;
