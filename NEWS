@@ -1,6 +1,13 @@
 Changes since Ecore 1.7.7:
 --------------------------
 Additions:
+    * ecore_x_randr_crtc_info_get()
+    * ecore_x_randr_crtc_info_free()
+
+Deprecations:
+    * ecore_x_randr_crtc_gamma_ramp_size_get()
+    * ecore_x_randr_crtc_gamma_ramps_get()
+    * ecore_x_randr_crtc_gamma_ramps_set()
 
 Fixes:
     * Ecore-X: Fix selection parser to not overrun buffer read by using longs on 64bit.
