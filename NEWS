@@ -18,6 +18,7 @@ Fixes:
       ecore_con_client_uptime_get() is working.
     * Fix srv->start_time (initialization missing). So now
       ecore_con_server_uptime_get() is working for plain TCP connections.
+    * Fix use of ecore_con_server_timeout_set() that doesnt refresh the timer.
 
 Ecore 1.7.7
 
