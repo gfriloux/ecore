@@ -1163,7 +1163,7 @@
 
 2013-05-21	Daniel Willmann
 
-				* Backport (6d54f46) from Raster:
+        * Backport (6d54f46) from Raster:
         Ecore-X: Fix selection parser to not use longs - wrong on
         64bit as the rest of ecore-x keeps types to their REAL sizes (ints),
         but xlib uses longs (change size - eg 64bit even though protocol-wise
@@ -1188,3 +1188,11 @@
 
 2013-08-01 Deon Thomas
 	* Fix building with --disable-ecore-randr thanks to devilhorns #ifdef
+
+2013-08-02  Eduardo Lima (Etrunko)
+
+        * Wayland: Handle ECORE_WL_WINDOW_TYPE_NONE correctly
+
+2013-08-02  Eduardo Lima (Etrunko)
+
+        * 1.7.8 release
