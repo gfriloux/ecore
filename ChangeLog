@@ -1185,3 +1185,6 @@
 2013-07-17  Guillaume Friloux
         * Fix ecore_con_server_timeout_set(). It was changing the 
           timeout value, but not the timer.
+
+2013-08-01 Deon Thomas
+	* Fix building with --disable-ecore-randr thanks to devilhorns #ifdef
