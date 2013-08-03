@@ -176,7 +176,7 @@ static Ecore_Evas_Engine_Func _ecore_wl_engine_func =
    NULL,
    NULL,
    NULL,
-   _ecore_evas_wl_render, 
+   _ecore_evas_wl_render,
    _ecore_evas_wl_screen_geometry_get,
    _ecore_evas_wl_screen_dpi_get
 };
@@ -828,6 +828,30 @@ _ecore_evas_wl_transparent_set(Ecore_Evas *ee, int transparent)
      }
 }
 
+static void
+_ecore_evas_wl_frame_complete(void *data, struct wl_callback *callback, uint32_t time __UNUSED__);
+
+static const struct wl_callback_listener frame_listener = {
+   _ecore_evas_wl_frame_complete,
+};
+
+static void
+_ecore_evas_wl_frame_complete(void *data, struct wl_callback *callback, uint32_t time __UNUSED__)
+{
+   Ecore_Evas *ee = data;
+   Ecore_Wl_Window *win = ee->engine.wl.win;
+
+   win->frame_callback = NULL;
+   win->frame_pending = EINA_FALSE;
+   wl_callback_destroy(callback);
+
+   win->frame_callback =
+      wl_surface_frame(win->surface);
+
+   wl_callback_add_listener(win->frame_callback,
+                            &frame_listener, ee);
+}
+
 static int 
 _ecore_evas_wl_render(Ecore_Evas *ee)
 {
@@ -840,6 +864,7 @@ _ecore_evas_wl_render(Ecore_Evas *ee)
      {
         Eina_List *ll = NULL, *updates = NULL;
         Ecore_Evas *ee2 = NULL;
+        Ecore_Wl_Window *win = NULL;
 
         if (ee->func.fn_pre_render) ee->func.fn_pre_render(ee);
 
@@ -851,25 +876,40 @@ _ecore_evas_wl_render(Ecore_Evas *ee)
              if (ee2->func.fn_post_render) ee2->func.fn_post_render(ee2);
           }
 
-        if ((updates = evas_render_updates(ee->evas))) 
+        win = ee->engine.wl.win;
+
+        if (!win->frame_pending)
           {
-             Eina_List *l = NULL;
-             Eina_Rectangle *r;
+             if (!win->frame_callback)
+               {
+                  win->frame_callback = wl_surface_frame(win->surface);
+                  wl_callback_add_listener(win->frame_callback,
+                                           &frame_listener, ee);
+               }
 
-             LOGFN(__FILE__, __LINE__, __FUNCTION__);
+             if ((updates = evas_render_updates(ee->evas)))
+               {
+                  Eina_List *l = NULL;
+                  Eina_Rectangle *r;
 
-             EINA_LIST_FOREACH(updates, l, r) 
-               ecore_wl_window_damage(ee->engine.wl.win, 
-                                      r->x, r->y, r->w, r->h);
+                  LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
-             ecore_wl_flush();
+                  EINA_LIST_FOREACH(updates, l, r)
+                     ecore_wl_window_damage(win,
+                                            r->x, r->y, r->w, r->h);
 
-             evas_render_updates_free(updates);
-             _ecore_evas_idle_timeout_update(ee);
-             rend = 1;
+                  ecore_wl_flush();
+
+                  evas_render_updates_free(updates);
+                  _ecore_evas_idle_timeout_update(ee);
+                  rend = 1;
+
+                  win->frame_pending = EINA_TRUE;
+               }
+
+             if (ee->func.fn_post_render) ee->func.fn_post_render(ee);
           }
 
-        if (ee->func.fn_post_render) ee->func.fn_post_render(ee);
      }
    return rend;
 }
