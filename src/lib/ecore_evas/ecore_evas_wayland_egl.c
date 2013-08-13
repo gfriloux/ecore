@@ -845,11 +845,13 @@ _ecore_evas_wl_frame_complete(void *data, struct wl_callback *callback, uint32_t
    win->frame_pending = EINA_FALSE;
    wl_callback_destroy(callback);
 
-   win->frame_callback =
-      wl_surface_frame(win->surface);
-
-   wl_callback_add_listener(win->frame_callback,
-                            &frame_listener, ee);
+   if (win->surface)
+     {
+        win->frame_callback =
+           wl_surface_frame(win->surface);
+        wl_callback_add_listener(win->frame_callback,
+                                 &frame_listener, ee);
+     }
 }
 
 static int 
