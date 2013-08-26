@@ -84,6 +84,10 @@ _ecore_glib_context_poll_from(const GPollFD *pfds,
 
    for (; itr < itr_end; itr++)
      {
+	/* ignore invalid values (mainly negative ones) */
+	if (itr->fd <0 || itr->fd >= FD_SETSIZE)
+	    continue;
+
         if (glib_fds < itr->fd)
           glib_fds = itr->fd;
 
@@ -110,6 +114,10 @@ _ecore_glib_context_poll_to(GPollFD      *pfds,
 
    for (; (itr < itr_end) && (ready > 0); itr++)
      {
+	/* ignore invalid values (mainly negative ones) */
+	if (itr->fd <0 || itr->fd >= FD_SETSIZE)
+	    continue;
+
         itr->revents = 0;
         if (FD_ISSET(itr->fd, rfds) && (itr->events & G_IO_IN))
           {
