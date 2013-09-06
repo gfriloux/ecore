@@ -346,10 +346,6 @@ ecore_wl_screen_size_get(int *w, int *h)
          if (w) *w = _ecore_wl_disp->output->allocation.w;
          if (h) *h = _ecore_wl_disp->output->allocation.h;
      }
-
-
-   if (w) *w = _ecore_wl_disp->output->allocation.w;
-   if (h) *h = _ecore_wl_disp->output->allocation.h;
 }
 
 /* @since 1.2 */
