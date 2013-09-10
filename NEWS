@@ -2,11 +2,9 @@ Ecore 1.7.9
 
 Changes since Ecore 1.7.8:
 --------------------------
-Additions:
-
-Deprecations:
-
 Fixes:
+    * ecore_evas/wayland_egl: Only render if last frame has been presented.
+    * ecore/wayland: Fix screen size get when screen is rotated.
     * ecore_imf: Fix memory leak in scim immodule
     * ecore_evas/wayland_egl: Add missing _ecore_evas_move_resize()
 
