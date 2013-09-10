@@ -63,6 +63,7 @@ struct _EE_Wl_Smart_Data
 {
    Evas_Object *frame;
    Evas_Object *text;
+   Evas_Object *clipper;
    Evas_Coord x, y, w, h;
 };
 
@@ -1147,9 +1148,15 @@ _ecore_evas_wl_smart_add(Evas_Object *obj)
    sd->w = 1;
    sd->h = 1;
 
+   sd->clipper = evas_object_rectangle_add(evas);
+   evas_object_color_set(sd->clipper, 255, 255, 255, 255);
+   evas_object_smart_member_add(sd->clipper, obj);
+
    sd->frame = evas_object_rectangle_add(evas);
    evas_object_color_set(sd->frame, 249, 249, 249, 255);
    evas_object_smart_member_add(sd->frame, obj);
+   evas_object_clip_set(sd->frame, sd->clipper);
+   evas_object_show(sd->frame);
 
    sd->text = evas_object_text_add(evas);
    evas_object_color_set(sd->text, 0, 0, 0, 255);
@@ -1157,6 +1164,8 @@ _ecore_evas_wl_smart_add(Evas_Object *obj)
    evas_object_text_font_set(sd->text, "Sans", 10);
    evas_object_text_text_set(sd->text, "Smart Test");
    evas_object_smart_member_add(sd->text, obj);
+   evas_object_clip_set(sd->text, sd->clipper);
+   evas_object_show(sd->text);
 
    evas_object_smart_data_set(obj, sd);
 }
@@ -1171,6 +1180,7 @@ _ecore_evas_wl_smart_del(Evas_Object *obj)
    if (!(sd = evas_object_smart_data_get(obj))) return;
    evas_object_del(sd->text);
    evas_object_del(sd->frame);
+   evas_object_del(sd->clipper);
    free(sd);
 }
 
@@ -1186,6 +1196,7 @@ _ecore_evas_wl_smart_resize(Evas_Object *obj, Evas_Coord w, Evas_Coord h)
    sd->w = w;
    sd->h = h;
    evas_object_resize(sd->frame, w, h);
+   evas_object_resize(sd->clipper, w, h);
 }
 
 static void 
@@ -1196,8 +1207,7 @@ _ecore_evas_wl_smart_show(Evas_Object *obj)
    LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
    if (!(sd = evas_object_smart_data_get(obj))) return;
-   evas_object_show(sd->frame);
-   evas_object_show(sd->text);
+   evas_object_show(sd->clipper);
 }
 
 static void 
@@ -1208,8 +1218,7 @@ _ecore_evas_wl_smart_hide(Evas_Object *obj)
    LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
    if (!(sd = evas_object_smart_data_get(obj))) return;
-   evas_object_hide(sd->text);
-   evas_object_hide(sd->frame);
+   evas_object_hide(sd->clipper);
 }
 
 static Evas_Object *
