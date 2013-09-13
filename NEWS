@@ -1,3 +1,14 @@
+Ecore 1.7.9
+
+Changes since Ecore 1.7.8:
+--------------------------
+Additions:
+
+Deprecations:
+
+Fixes:
+    * ecore_imf: Fix memory leak in scim immodule
+
 Ecore 1.7.8
 
 Changes since Ecore 1.7.7:

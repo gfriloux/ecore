@@ -1196,3 +1196,7 @@
 2013-08-02  Eduardo Lima (Etrunko)
 
         * 1.7.8 release
+
+2013-09-12  Jihoon Kim (jihoon)
+
+        * ecore_imf: Fix memory leak in scim immodule
