@@ -1200,3 +1200,7 @@
 2013-09-12  Jihoon Kim (jihoon)
 
         * ecore_imf: Fix memory leak in scim immodule
+
+2013-09-26  Eduardo Lima (Etrunko)
+
+        * Ecore_Evas/Wayland_EGL: Add missing _ecore_evas_move_resize()

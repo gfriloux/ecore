@@ -81,6 +81,7 @@ static void _ecore_evas_wl_callback_mouse_in_set(Ecore_Evas *ee, void (*func)(Ec
 static void _ecore_evas_wl_callback_mouse_out_set(Ecore_Evas *ee, void (*func)(Ecore_Evas *ee));
 static void _ecore_evas_wl_move(Ecore_Evas *ee, int x, int y);
 static void _ecore_evas_wl_resize(Ecore_Evas *ee, int w, int h);
+static void _ecore_evas_wl_move_resize(Ecore_Evas *ee, int x, int y, int w, int h);
 static void _ecore_evas_wl_show(Ecore_Evas *ee);
 static void _ecore_evas_wl_hide(Ecore_Evas *ee);
 static void _ecore_evas_wl_raise(Ecore_Evas *ee);
@@ -142,7 +143,7 @@ static Ecore_Evas_Engine_Func _ecore_wl_engine_func =
    _ecore_evas_wl_move,
    NULL, // managed_move
    _ecore_evas_wl_resize,
-   NULL, // move_resize
+   _ecore_evas_wl_move_resize,
    NULL, // rotation_set
    NULL, // shaped_set
    _ecore_evas_wl_show,
@@ -551,7 +552,19 @@ _ecore_evas_wl_resize(Ecore_Evas *ee, int w, int h)
      }
 }
 
-static void 
+static void
+_ecore_evas_wl_move_resize(Ecore_Evas *ee, int x, int y, int w, int h)
+{
+   LOGFN(__FILE__, __LINE__, __FUNCTION__);
+
+   if (!ee) return;
+   if ((ee->x != x) || (ee->y != y))
+     _ecore_evas_wl_move(ee, x, y);
+   if ((ee->w != w) || (ee->h != h))
+     _ecore_evas_wl_resize(ee, w, h);
+}
+
+static void
 _ecore_evas_wl_show(Ecore_Evas *ee)
 {
    Evas_Engine_Info_Wayland_Egl *einfo;

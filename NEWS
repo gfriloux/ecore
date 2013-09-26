@@ -8,6 +8,7 @@ Deprecations:
 
 Fixes:
     * ecore_imf: Fix memory leak in scim immodule
+    * ecore_evas/wayland_egl: Add missing _ecore_evas_move_resize()
 
 Ecore 1.7.8
 
