@@ -719,7 +719,8 @@ _ecore_wl_input_cb_pointer_enter(void *data, struct wl_pointer *pointer __UNUSED
    input->pointer_enter_serial = serial;
 
    /* The cursor on the surface is undefined until we set it */
-   ecore_wl_input_cursor_from_name_set(input, "left_ptr");
+   if (input->pointer)
+     ecore_wl_input_cursor_from_name_set(input, "left_ptr");
 
    if ((win = wl_surface_get_user_data(surface)))
      {
