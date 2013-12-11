@@ -1158,7 +1158,6 @@ _ecore_evas_wayland_shm_resize(Ecore_Evas *ee, int location)
    if (!ee) return;
    if (ee->engine.wl.win) 
      {
-        ee->engine.wl.win->resizing = EINA_TRUE;
         ecore_wl_window_resize(ee->engine.wl.win, ee->w, ee->h, location);
      }
 }
@@ -1171,7 +1170,6 @@ _ecore_evas_wayland_shm_move(Ecore_Evas *ee, int x, int y)
    if (!ee) return;
    if (ee->engine.wl.win) 
      {
-        ee->engine.wl.win->moving = EINA_TRUE;
         ecore_wl_window_move(ee->engine.wl.win, x, y);
      }
 }

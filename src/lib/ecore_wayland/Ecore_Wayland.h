@@ -163,6 +163,7 @@ struct _Ecore_Wl_Input
 
    Ecore_Wl_Window *grab;
    unsigned int grab_button;
+   unsigned int grab_timestamp;
 
    Ecore_Wl_Dnd_Source *drag_source;
    Ecore_Wl_Dnd_Source *selection_source;
@@ -209,8 +210,6 @@ struct _Ecore_Wl_Window
    /* Eina_Bool resize_scheduled : 1; */
    Eina_Bool alpha : 1;
    Eina_Bool transparent : 1;
-   Eina_Bool moving : 1;
-   Eina_Bool resizing : 1;
 
    Ecore_Wl_Window_Type type;
    Ecore_Wl_Window_Buffer_Type buffer_type;
