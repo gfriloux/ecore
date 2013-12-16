@@ -176,7 +176,7 @@ ecore_wl_input_pointer_set(Ecore_Wl_Input *input, struct wl_surface *surface, in
 {
    LOGFN(__FILE__, __LINE__, __FUNCTION__);
 
-   if (input)
+   if (input && input->pointer)
      wl_pointer_set_cursor(input->pointer, input->pointer_enter_serial, 
                            surface, hot_x, hot_y);
 }
