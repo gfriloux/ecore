@@ -1,0 +1,175 @@
+# Galician translation for enlightenment
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the enlightenment package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: enlightenment\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-04 22:59+0100\n"
+"PO-Revision-Date: 2013-05-24 09:25+0000\n"
+"Last-Translator: Miguel Anxo Bouzada <mbouzada@gmail.com>\n"
+"Language-Team: Galician <gl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-01-11 06:27+0000\n"
+"X-Generator: Launchpad (build 16890)\n"
+
+#: src/lib/ecore/ecore_getopt.c:104
+msgid "Version:"
+msgstr "Versión:"
+
+#: src/lib/ecore/ecore_getopt.c:113
+msgid "Usage:"
+msgstr "Uso:"
+
+#: src/lib/ecore/ecore_getopt.c:118
+#, c-format
+msgid "%s [options]\n"
+msgstr "%s [opcións]\n"
+
+#: src/lib/ecore/ecore_getopt.c:273
+msgid "Copyright:"
+msgstr "Dereitos de autoría:"
+
+#: src/lib/ecore/ecore_getopt.c:285
+msgid "License:"
+msgstr "Licenza:"
+
+#: src/lib/ecore/ecore_getopt.c:466
+msgid "Type: "
+msgstr "Tipo: "
+
+#: src/lib/ecore/ecore_getopt.c:542
+msgid "Default: "
+msgstr "Predeterminado: "
+
+#: src/lib/ecore/ecore_getopt.c:569
+msgid "Choices: "
+msgstr "Escollas: "
+
+#: src/lib/ecore/ecore_getopt.c:670
+msgid "Options:\n"
+msgstr "Opcións:\n"
+
+#: src/lib/ecore/ecore_getopt.c:797
+#, c-format
+msgid "ERROR: unknown option --%s.\n"
+msgstr "ERRO: opción descoñecida --%s.\n"
+
+#: src/lib/ecore/ecore_getopt.c:799
+#, c-format
+msgid "ERROR: unknown option -%c.\n"
+msgstr "ERRO: opción descoñecida -%c.\n"
+
+#: src/lib/ecore/ecore_getopt.c:857
+msgid "ERROR: "
+msgstr "ERRO: "
+
+#: src/lib/ecore/ecore_getopt.c:940 src/lib/ecore/ecore_getopt.c:1077
+#: src/lib/ecore/ecore_getopt.c:1093 src/lib/ecore/ecore_getopt.c:1108
+#: src/lib/ecore/ecore_getopt.c:1125 src/lib/ecore/ecore_getopt.c:1172
+#: src/lib/ecore/ecore_getopt.c:1292 src/lib/ecore/ecore_getopt.c:1333
+msgid "value has no pointer set.\n"
+msgstr "o valor non ten un punteiro estabelecido\n"
+
+#: src/lib/ecore/ecore_getopt.c:972 src/lib/ecore/ecore_getopt.c:1192
+#, c-format
+msgid "unknown boolean value %s.\n"
+msgstr "valor booleano descoñecido %s.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1023 src/lib/ecore/ecore_getopt.c:1280
+#, c-format
+msgid "invalid number format %s\n"
+msgstr "formato numérico incorrecto %s\n"
+
+#: src/lib/ecore/ecore_getopt.c:1138
+#, c-format
+msgid "invalid choice \"%s\". Valid values are: "
+msgstr "Escolla «%s» incorrecta. Os valores correctos son: "
+
+#: src/lib/ecore/ecore_getopt.c:1166
+msgid "missing parameter to append.\n"
+msgstr "falta o parámetro para anexar.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1270
+msgid "could not parse value.\n"
+msgstr "non foi posíbel analizar o valor\n"
+
+#: src/lib/ecore/ecore_getopt.c:1327
+msgid "missing parameter.\n"
+msgstr "falta o parámetro.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1340
+msgid "missing callback function!\n"
+msgstr "falta a función de invocación!\n"
+
+#: src/lib/ecore/ecore_getopt.c:1369
+msgid "no version was defined.\n"
+msgstr "non se definiu ningunha versión.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1386
+msgid "no copyright was defined.\n"
+msgstr "non se definiron os dereitos de autoría.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1403
+msgid "no license was defined.\n"
+msgstr "non se definiu ningunha licenza.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1478
+#, c-format
+msgid "ERROR: unknown option --%s, ignored.\n"
+msgstr "ERRO: opción descoñecida --%s, ignorada.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1511
+#, c-format
+msgid "ERROR: option --%s requires an argument!\n"
+msgstr "ERRO: a opción --%s require un argumento!\n"
+
+#: src/lib/ecore/ecore_getopt.c:1553
+#, c-format
+msgid "ERROR: unknown option -%c, ignored.\n"
+msgstr "ERRO: opción descoñecida -%c, ignorada.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1591
+#, c-format
+msgid "ERROR: option -%c requires an argument!\n"
+msgstr "ERRO: a opción -%c requere un argumento!\n"
+
+#: src/lib/ecore/ecore_getopt.c:1802
+msgid "ERROR: no parser provided.\n"
+msgstr "ERRO: non se forneceu un analizador.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1807
+msgid "ERROR: no values provided.\n"
+msgstr "ERRO: non se forneceu ningún valor.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1816
+msgid "ERROR: no arguments provided.\n"
+msgstr "ERRO: non se forneceu ningún argumento.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1842
+msgid "ERROR: invalid options found."
+msgstr "ERRO: atopáronse opcións incorrectas."
+
+#: src/lib/ecore/ecore_getopt.c:1848
+#, c-format
+msgid " See --%s.\n"
+msgstr " Vexa --%s.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1850
+#, c-format
+msgid " See -%c.\n"
+msgstr " Vexa -%c.\n"
+
+#: src/lib/ecore/ecore_getopt.c:1896
+#, c-format
+msgid "ERROR: incorrect geometry value '%s'\n"
+msgstr "ERRO: valor xeométrico «%s» incorrecto\n"
+
+#: src/lib/ecore/ecore_getopt.c:1928
+#, c-format
+msgid "ERROR: incorrect size value '%s'\n"
+msgstr "ERRO: valor «%s» do tamaño incorrecto\n"
