@@ -710,7 +710,8 @@ ecore_con_server_send(Ecore_Con_Server *svr,
           }
 #endif
      }
-   eina_binbuf_append_length(svr->buf, data, size);
+   if (!eina_binbuf_append_length(svr->buf, data, size))
+     ERR("eina_binbuf_append_length() failed");
 
    return size;
 }
@@ -813,7 +814,7 @@ ecore_con_client_send(Ecore_Con_Client *cl,
           {
              cl->buf = eina_binbuf_new();
              EINA_SAFETY_ON_NULL_RETURN_VAL(cl->buf, 0);
-+#ifdef TCP_CORK
+#ifdef TCP_CORK
              if ((cl->fd >= 0) && ((cl->host_server->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
                {
                   int state = 1;
@@ -823,7 +824,8 @@ ecore_con_client_send(Ecore_Con_Client *cl,
                }
 #endif
           }
-        eina_binbuf_append_length(cl->buf, data, size);
+        if (!eina_binbuf_append_length(cl->buf, data, size))
+          ERR("eina_binbuf_append_length() failed");
      }
    return size;
 }
@@ -2240,9 +2242,10 @@ _ecore_con_svr_cl_handler(void             *data,
 static void
 _ecore_con_server_flush(Ecore_Con_Server *svr)
 {
-   int count, num;
+   int count;
+   size_t num;
    size_t buf_len;
-   unsigned int *buf_offset;
+   size_t *buf_offset;
    const unsigned char *buf;
    Eina_Binbuf *buf_p;
 
@@ -2349,7 +2352,8 @@ _ecore_con_server_flush(Ecore_Con_Server *svr)
 static void
 _ecore_con_client_flush(Ecore_Con_Client *cl)
 {
-   int num = 0, count = 0;
+   int count = 0;
+   size_t num = 0;
 
    if (!cl->fd_handler) return;
 #ifdef _WIN32
