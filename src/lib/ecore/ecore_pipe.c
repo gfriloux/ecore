@@ -545,12 +545,22 @@ _ecore_pipe_handler_call(Ecore_Pipe *p,
                          size_t len)
 {
    void *data = (void*) p->data;
+
+   // clear all values of pipe first.
+   p->passed_data = NULL;
+   p->already_read = 0;
+   p->len = 0;
+   p->message++;
+
    if (!p->delete_me)
      {
         _ecore_unlock();
         p->handler(data, buf, len);
         _ecore_lock();
      }
+
+   // free p->passed_data
+   free(buf);
 }
 
 static Eina_Bool
@@ -593,11 +603,6 @@ _ecore_pipe_read(void             *data,
                       {
      /* no data on first try through means an error */
                           _ecore_pipe_handler_call(p, NULL, 0);
-                          if (p->passed_data) free(p->passed_data);
-                          p->passed_data = NULL;
-                          p->already_read = 0;
-                          p->len = 0;
-                          p->message++;
                           pipe_close(p->fd_read);
                           p->fd_read = PIPE_FD_INVALID;
                           p->fd_handler = NULL;
@@ -630,11 +635,6 @@ _ecore_pipe_read(void             *data,
                    if (WSAGetLastError() != WSAEWOULDBLOCK)
                      {
                         _ecore_pipe_handler_call(p, NULL, 0);
-                        if (p->passed_data) free(p->passed_data);
-                        p->passed_data = NULL;
-                        p->already_read = 0;
-                        p->len = 0;
-                        p->message++;
                         pipe_close(p->fd_read);
                         p->fd_read = PIPE_FD_INVALID;
                         p->fd_handler = NULL;
@@ -651,12 +651,6 @@ _ecore_pipe_read(void             *data,
         if (p->len == 0)
           {
              _ecore_pipe_handler_call(p, NULL, 0);
-             /* reset all values to 0 */
-             if (p->passed_data) free(p->passed_data);
-             p->passed_data = NULL;
-             p->already_read = 0;
-             p->len = 0;
-             p->message++;
              _ecore_pipe_unhandle(p);
              return ECORE_CALLBACK_RENEW;
           }
@@ -670,9 +664,6 @@ _ecore_pipe_read(void             *data,
                {
                   _ecore_pipe_handler_call(p, NULL, 0);
      /* close the pipe */
-                  p->already_read = 0;
-                  p->len = 0;
-                  p->message++;
                   pipe_close(p->fd_read);
                   p->fd_read = PIPE_FD_INVALID;
                   p->fd_handler = NULL;
@@ -689,15 +680,7 @@ _ecore_pipe_read(void             *data,
         /* catch the non error case first */
         /* if we read enough data to finish the message/buffer */
         if (ret == (ssize_t)(p->len - p->already_read))
-          {
-             _ecore_pipe_handler_call(p, p->passed_data, p->len);
-             free(p->passed_data);
-             /* reset all values to 0 */
-             p->passed_data = NULL;
-             p->already_read = 0;
-             p->len = 0;
-             p->message++;
-          }
+          _ecore_pipe_handler_call(p, p->passed_data, p->len);
         else if (ret > 0)
           {
              /* more data left to read */
@@ -732,11 +715,6 @@ _ecore_pipe_read(void             *data,
              if (WSAGetLastError() != WSAEWOULDBLOCK)
                {
                   _ecore_pipe_handler_call(p, NULL, 0);
-                  if (p->passed_data) free(p->passed_data);
-                  p->passed_data = NULL;
-                  p->already_read = 0;
-                  p->len = 0;
-                  p->message++;
                   pipe_close(p->fd_read);
                   p->fd_read = PIPE_FD_INVALID;
                   p->fd_handler = NULL;
