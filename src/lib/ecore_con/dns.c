@@ -4393,7 +4393,7 @@ int dns_nssconf_loadfile(struct dns_resolv_conf *resconf, FILE *fp) {
 				dns_anyconf_skip("] \t", fp);
 			}
 
-         if ((unsigned)endof(lookup) - lp < cf.count + 1) /* +1 for '\0' */
+         if ((unsigned)(endof(lookup) - lp) < (cf.count + 1)) /* +1 for '\0' */
 				goto nextsrc;
 
 			source = dns_nssconf_keyword(cf.token[0]);
@@ -4433,7 +4433,7 @@ int dns_nssconf_loadfile(struct dns_resolv_conf *resconf, FILE *fp) {
 					       : DNS_NSSCONF_CONTINUE;
 					break;
 				}
-				
+
 				*lp++ = dns_nssconf_k2c(action);
 			}
 nextsrc:

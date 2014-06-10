@@ -9,6 +9,7 @@
 #include <fcntl.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <pwd.h>
 
 #ifdef HAVE_ERRNO_H
 # include <errno.h>
