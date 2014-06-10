@@ -783,7 +783,7 @@ _ecore_main_loop_init(void)
 #ifdef USE_G_MAIN_LOOP
    ecore_glib_source = g_source_new(&ecore_gsource_funcs, sizeof (GSource));
    if (!ecore_glib_source)
-     CRIT("Failed to create glib source for epoll!");
+     CRI("Failed to create glib source for epoll!");
    else
      {
         g_source_set_priority(ecore_glib_source, G_PRIORITY_HIGH_IDLE + 20);
@@ -811,7 +811,7 @@ _ecore_main_loop_init(void)
 
         ecore_glib_source_id = g_source_attach(ecore_glib_source, NULL);
         if (ecore_glib_source_id <= 0)
-          CRIT("Failed to attach glib source to default context");
+          CRI("Failed to attach glib source to default context");
      }
 #endif
 }
