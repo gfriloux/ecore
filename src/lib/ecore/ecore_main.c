@@ -2063,7 +2063,7 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
 
         res = 0;
      }
-   else if ((result >= 0) && (result < WAIT_OBJECT_0 + events_nbr))
+   else if (result < WAIT_OBJECT_0 + events_nbr)
      {
         WSANETWORKEVENTS network_event;
 
