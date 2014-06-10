@@ -56,7 +56,6 @@ static CURLM *_curlm = NULL;
 static int _init_count = 0;
 static Ecore_Timer *_curl_timer = NULL;
 static Eina_Bool pipelining = EINA_FALSE;
-static Ecore_Idler *_curl_idler = NULL;
 #endif
 
 /**
@@ -113,12 +112,6 @@ ecore_con_url_shutdown(void)
      {
         ecore_timer_del(_curl_timer);
         _curl_timer = NULL;
-     }
-
-   if (_curl_idler)
-     {
-        ecore_idler_del(_curl_idler);
-        _curl_idler = NULL;
      }
 
    EINA_LIST_FREE(_url_con_list, url_con)
@@ -1554,10 +1547,8 @@ _ecore_con_url_fd_handler(void *data EINA_UNUSED, Ecore_Fd_Handler *fd_handler E
    curl_multi_timeout(_curlm, &ms);
    if ((ms >= CURL_MIN_TIMEOUT) || (ms <= 0)) ms = CURL_MIN_TIMEOUT;
    ecore_timer_interval_set(_curl_timer, (double)ms / 1000.0);
-   
-   if (!_curl_idler)
-     _curl_idler = ecore_idler_add(_ecore_con_url_timer, NULL);
 
+   _ecore_con_url_timer(NULL);
    return ECORE_CALLBACK_CANCEL;
 }
 
@@ -1620,11 +1611,6 @@ _ecore_con_url_timer(void *data EINA_UNUSED)
         ERR("curl_multi_perform() failed: %s", curl_multi_strerror(ret));
         _ecore_con_url_curl_clear();
         ecore_timer_freeze(_curl_timer);
-        if (_curl_idler)
-          {
-             ecore_idler_del(_curl_idler);
-             _curl_idler = NULL;
-          }
      }
 
    if (still_running)
@@ -1642,11 +1628,6 @@ _ecore_con_url_timer(void *data EINA_UNUSED)
         _ecore_con_url_info_read();
         _ecore_con_url_curl_clear();
         ecore_timer_freeze(_curl_timer);
-        if (_curl_idler)
-          {
-             ecore_idler_del(_curl_idler);
-             _curl_idler = NULL;
-          }
      }
 
    return ECORE_CALLBACK_RENEW;
