@@ -566,8 +566,8 @@ _ecore_event_call(void)
                          }
                     }
 
-                  /* may have changed in recursive main loops */
-                  event_handler_current = (Ecore_Event_Handler *)EINA_INLIST_GET(event_handler_current)->next;
+                  if (event_handler_current) /* may have changed in recursive main loops */
+                    event_handler_current = (Ecore_Event_Handler *)EINA_INLIST_GET(event_handler_current)->next;
                }
           }
         while (event_handlers_add_list)
@@ -583,8 +583,8 @@ _ecore_event_call(void)
         e->references--;
         e->delete_me = 1;
 
-        /* may have changed in recursive main loops */
-        event_current = (Ecore_Event *)EINA_INLIST_GET(event_current)->next;
+        if (event_handler_current) /* may have changed in recursive main loops */
+          event_current = (Ecore_Event *)EINA_INLIST_GET(event_current)->next;
      }
 
    ecore_raw_event_type = ECORE_EVENT_NONE;
