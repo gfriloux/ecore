@@ -876,7 +876,7 @@ ecore_file_ls(const char *dir)
 EAPI char *
 ecore_file_app_exe_get(const char *app)
 {
-   char *p, *pp = NULL, *exe1 = NULL, *exe2 = NULL;
+   char *p, *pp, *exe1 = NULL, *exe2 = NULL;
    char *exe = NULL;
    int in_quot_dbl = 0, in_quot_sing = 0, restart = 0;
 
@@ -920,11 +920,7 @@ restart:
         exe1++;
 
         homedir = getenv("HOME");
-        if (!homedir)
-          {
-             free(pp);
-             return NULL;
-          }
+        if (!homedir) return NULL;
         len = strlen(homedir);
         if (exe) free(exe);
         exe = malloc(len + exe2 - exe1 + 2);
@@ -1006,7 +1002,11 @@ restart:
              else if (isspace((unsigned char)*p))
                {
                   if (restart)
-                    goto restart;
+                    {
+                       free(exe);
+                       exe = NULL;
+                       goto restart;
++                    }
                   else
                     break;
                }
