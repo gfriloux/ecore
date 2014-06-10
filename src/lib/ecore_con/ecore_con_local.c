@@ -90,7 +90,10 @@ ecore_con_local_connect(Ecore_Con_Server *svr,
         if (svr->port < 0)
           {
              if (svr->name[0] == '/')
-               strncpy(buf, svr->name, sizeof(buf));
+               {
+                  strncpy(buf, svr->name, sizeof(buf) - 1);
+                  buf[sizeof(buf) - 1] = 0;
+               }
              else
                snprintf(buf, sizeof(buf), "/tmp/.ecore_service|%s", svr->name);
           }
@@ -107,8 +110,10 @@ ecore_con_local_connect(Ecore_Con_Server *svr,
           }
      }
    else if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_LOCAL_ABSTRACT)
-     strncpy(buf, svr->name,
-             sizeof(buf));
+     {
+        strncpy(buf, svr->name, sizeof(buf) - 1);
+        buf[sizeof(buf) - 1] = 0;
+     }
 
    svr->fd = socket(AF_UNIX, SOCK_STREAM, 0);
    if (svr->fd < 0)
@@ -245,8 +250,10 @@ ecore_con_local_listen(
                    svr->port);
      }
    else if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_LOCAL_ABSTRACT)
-     strncpy(buf, svr->name,
-             sizeof(buf));
+     {
+        strncpy(buf, svr->name, sizeof(buf) - 1);
+        buf[sizeof(buf) - 1] = 0;
+     }
 
    pmode = umask(mask);
 start:
