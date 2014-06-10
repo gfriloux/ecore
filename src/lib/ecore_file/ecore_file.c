@@ -922,7 +922,6 @@ restart:
         homedir = getenv("HOME");
         if (!homedir) return NULL;
         len = strlen(homedir);
-        if (exe) free(exe);
         exe = malloc(len + exe2 - exe1 + 2);
         if (!exe) return NULL;
         pp = exe;
@@ -939,7 +938,6 @@ restart:
      }
    else
      {
-        if (exe) free(exe);
         exe = malloc(exe2 - exe1 + 1);
         if (!exe) return NULL;
         pp = exe;
