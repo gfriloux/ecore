@@ -572,7 +572,7 @@ ecore_con_socks_dns_cb(const char *canonname __UNUSED__, const char *ip, struct 
 void
 ecore_con_socks_init(void)
 {
-   const char *socks;
+   const char *socks = NULL;
    char *h, *p, *l, *u = NULL;
    char buf[512];
    int port, lookup = 0;
@@ -583,14 +583,20 @@ ecore_con_socks_init(void)
    unsigned char addr6[sizeof(struct in6_addr)];
 #endif
 
-   /* ECORE_CON_SOCKS_V4=[user@]host-port:[1|0] */
-   socks = getenv("ECORE_CON_SOCKS_V4");
-   if (!socks)
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
+   if (getuid() == geteuid())
+#endif
      {
-        /* ECORE_CON_SOCKS_V5=[user@]host-port:[1|0] */
-        socks = getenv("ECORE_CON_SOCKS_V5");
-        v5 = EINA_TRUE;
+        /* ECORE_CON_SOCKS_V4=[user@]host-port:[1|0] */
+        socks = getenv("ECORE_CON_SOCKS_V4");
+        if (!socks)
+          {
+             /* ECORE_CON_SOCKS_V5=[user@]host-port:[1|0] */
+             socks = getenv("ECORE_CON_SOCKS_V5");
+             v5 = EINA_TRUE;
+          }
      }
+
    if ((!socks) || (!socks[0]) || (strlen(socks) > 512)) return;
    strncpy(buf, socks, sizeof(buf));
    h = strchr(buf, '@');

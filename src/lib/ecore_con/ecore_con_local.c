@@ -75,15 +75,33 @@ ecore_con_local_connect(Ecore_Con_Server *svr,
 
    if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_LOCAL_USER)
      {
-        homedir = getenv("HOME");
-        if (!homedir)
-          homedir = getenv("TMP");
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
+        if (getuid() == geteuid())
+#endif
+          {
+             homedir = getenv("HOME");
+             if (!homedir)
+             homedir = getenv("TMP");
 
-        if (!homedir)
-          homedir = "/tmp";
+             if (!homedir)
+               homedir = "/tmp";
 
-        snprintf(buf, sizeof(buf), "%s/.ecore/%s/%i", homedir, svr->name,
-                 svr->port);
+             snprintf(buf, sizeof(buf), "%s/.ecore/%s/%i", homedir, svr->name,
+                      svr->port);
+          }
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
+        else
+          {
+             struct passwd *pw = getpwent();
+
+             if ((!pw) || (!pw->pw_dir))
+               snprintf(buf, sizeof(buf), "/tmp/%s/%i", svr->name,
+                        svr->port);
+             else
+               snprintf(buf, sizeof(buf), "%s/.ecore/%s/%i", pw->pw_dir, svr->name,
+                        svr->port);
+          }
+#endif
      }
    else if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_LOCAL_SYSTEM)
      {
@@ -201,13 +219,26 @@ ecore_con_local_listen(
 
    if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_LOCAL_USER)
      {
-        homedir = getenv("HOME");
-        if (!homedir)
-          homedir = getenv("TMP");
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
+        if (getuid() == geteuid())
+#endif
+          {
+             homedir = getenv("HOME");
+             if (!homedir)
+               homedir = getenv("TMP");
 
-        if (!homedir)
-          homedir = "/tmp";
+             if (!homedir)
+               homedir = "/tmp";
+          }
+#if defined(HAVE_GETUID) && defined(HAVE_GETEUID)
+        else
+          {
+             struct passwd *pw = getpwent();
 
+             if ((!pw) || (!pw->pw_dir)) homedir = "/tmp";
+             else homedir = pw->pw_dir;
+          }
+#endif
         mask = S_IRUSR | S_IWUSR | S_IXUSR;
         snprintf(buf, sizeof(buf), "%s/.ecore", homedir);
         if (stat(buf, &st) < 0)
