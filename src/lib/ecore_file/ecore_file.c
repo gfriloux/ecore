@@ -1004,7 +1004,7 @@ restart:
                        free(exe);
                        exe = NULL;
                        goto restart;
-+                    }
+                    }
                   else
                     break;
                }
