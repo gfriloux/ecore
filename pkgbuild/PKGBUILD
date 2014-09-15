@@ -1,0 +1,63 @@
+# Maintainer: Guillaume Friloux <guillaume@friloux.me>
+
+_pkgname=ecore
+pkgname=('ecore' 'ecore_doc')
+pkgver=1.7.10
+pkgrel=1
+
+pkgdesc="Enlightenment Foundation Libraries - Ecore"
+arch=('i686' 'x86_64')
+url="https://github.com/gfriloux/ecore"
+license=('BSD')
+depends=('')
+provides=("$_pkgname=$pkgver")
+conflicts=("$_pkgname")
+options=('debug')
+
+build()
+{
+  cd "../.."
+  export CFLAGS="$CFLAGS -fvisibility=hidden -fomit-frame-pointer"
+  export CXXFLAGS="$CXXFLAGS -fvisibility=hidden -fomit-frame-pointer"
+  [[ -e Makefile ]] && make clean distclean
+  [[ -e autogen.sh ]] && _configure=autogen.sh || _configure=configure
+  ./$_configure --prefix=/usr                                                  \
+                --enable-ecore-ipc --enable-ecore-con --enable-ecore-file      \
+                --disable-ecore-input --disable-ecore-input-evas               \
+                --disable-ecore-x --disable-ecore-evas --disable-glib          \
+                --disable-tslib --disable-xim --disable-ecore-x-composite      \
+                --disable-ecore-x-damage --disable-ecore-x-dpms                \
+                --disable-ecore-x-randr --disable-ecore-x-render               \
+                --disable-ecore-x-screensaver --disable-ecore-x-shape          \
+                --enable-ecore-x-gesture --disable-ecore-x-sync                \
+                --disable-ecore-x-xfixes --disable-ecore-x-xinerama            \
+                --disable-ecore-x-xprint --disable-ecore-x-xtest               \
+                --disable-ecore-x-cursor --disable-ecore-x-input               \
+                --disable-ecore-x-dri --disable-ecore-imf --disable-ecore-fb
+  make
+  make doc
+}
+
+package_ecore()
+{
+  cd "../.."
+  make -j1 DESTDIR="$pkgdir/" install
+  install -Dm644 README "$pkgdir/usr/share/doc/${pkgname%-git}/README"
+  install -Dm644 NEWS "$pkgdir/usr/share/doc/${pkgname%-git}/NEWS"
+  install -Dm644 ChangeLog "$pkgdir/usr/share/doc/${pkgname%-git}/ChangeLog"
+  install -Dm644 AUTHORS "$pkgdir/usr/share/doc/${pkgname%-git}/AUTHORS"
+}
+
+package_ecore_doc()
+{
+  pkgdesc="Documentation for ecore"
+  depends=('texlive-core' 'doxygen')
+  arch=('any')
+
+  unset license depends install
+  cd "../.."
+  mkdir -p "$pkgdir/usr/share/doc/${pkgname%-git}"
+  cp -a doc/html "$pkgdir/usr/share/doc/${pkgname%-git}/html"
+  cp -a doc/latex "$pkgdir/usr/share/doc/${pkgname%-git}/latex"
+}
+
