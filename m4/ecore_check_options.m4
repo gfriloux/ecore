@@ -66,10 +66,9 @@ if test "x${_ecore_want_inotify}" = "xyes" ; then
       [
        AC_TRY_COMPILE(
           [
-           #include <asm/unistd.h>
-           #include <linux/inotify.h>
+           #include <sys/inotify.h>
           ],
-          [int a = __NR_inotify_init; int b = IN_MOVE_SELF;],
+          [return (-1 == inotify_init());],
           [
            AC_DEFINE([HAVE_INOTIFY], [1], [ File monitoring with Inotify ])
            _ecore_have_inotify="yes"
