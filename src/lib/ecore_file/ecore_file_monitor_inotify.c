@@ -346,4 +346,3 @@ _ecore_file_monitor_inotify_print(char *file, int mask)
      INF("Inotify unmount %s: %s", type, file);
 }
 #endif
-#endif /* HAVE_INOTIFY */
