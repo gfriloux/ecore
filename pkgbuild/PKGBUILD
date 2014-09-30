@@ -10,8 +10,6 @@ arch=('i686' 'x86_64')
 url="https://github.com/gfriloux/ecore"
 license=('BSD')
 depends=('')
-provides=("$_pkgname=$pkgver")
-conflicts=("$_pkgname")
 options=('debug')
 
 build()
