@@ -1163,7 +1163,7 @@ update:
 		if (!P->an.base && (error = dns_p_study(P)))
 			goto error;
 
-      dns_header(P)->qdcount = htons(ntohs(dns_header(P)->qdcount) + 1);
+      dns_header(P)->ancount = htons(ntohs(dns_header(P)->ancount) + 1);
 
 		P->an.end  = P->end;
 		P->ns.base = P->end;
@@ -1179,7 +1179,7 @@ update:
 		if (!P->ns.base && (error = dns_p_study(P)))
 			goto error;
 
-      dns_header(P)->qdcount = htons(ntohs(dns_header(P)->qdcount) + 1);
+      dns_header(P)->nscount = htons(ntohs(dns_header(P)->nscount) + 1);
 
 		P->ns.end  = P->end;
 		P->ar.base = P->end;
@@ -1190,7 +1190,7 @@ update:
 		if (!P->ar.base && (error = dns_p_study(P)))
 			goto error;
 
-      dns_header(P)->qdcount = htons(ntohs(dns_header(P)->qdcount) + 1);
+      dns_header(P)->arcount = htons(ntohs(dns_header(P)->arcount) + 1);
 
 		P->ar.end = P->end;
 
