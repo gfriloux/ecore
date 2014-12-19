@@ -85,7 +85,6 @@ struct _Ecore_Exe
       DWORD data_size;
    } pipe_error;
 
-   Ecore_Exe_Cb pre_free_cb;
    Eina_Bool close_threads : 1;
    Eina_Bool close_stdin : 1;
    Eina_Bool is_suspended : 1;
@@ -397,8 +396,6 @@ _ecore_exe_shutdown(void)
      ecore_exe_free(exes);
 }
 
-static int run_pri = NORMAL_PRIORITY_CLASS;
-
 EAPI int ECORE_EXE_EVENT_ADD = 0;
 EAPI int ECORE_EXE_EVENT_DEL = 0;
 EAPI int ECORE_EXE_EVENT_DATA = 0;
@@ -641,7 +638,7 @@ ecore_exe_pipe_run(const char     *exe_cmd,
 
 delete_h_close:
    ecore_main_win32_handler_del(exe->h_close);
-close_process
+close_process:
    CloseHandle(exe->process_thread);
    CloseHandle(exe->process);
 close_pipe_write:
