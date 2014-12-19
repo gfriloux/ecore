@@ -23,11 +23,20 @@ includesdir = $(includedir)/ecore-@VMAJ@
 libecore_file_la_SOURCES = \
 ecore_file.c \
 ecore_file_monitor.c \
-ecore_file_monitor_inotify.c \
-ecore_file_monitor_win32.c \
 ecore_file_monitor_poll.c \
 ecore_file_path.c \
 ecore_file_download.c
+
+
+if HAVE_INOTIFY
+libecore_file_la_SOURCES += ecore_file_monitor_inotify.c
+else
+if HAVE_NOTIFY_WIN32
+libecore_file_la_SOURCES += ecore_file_monitor_win32.c
+else
+libecore_file_la_SOURCES += ecore_file_monitor_poll.c
+endif
+endif
 
 libecore_file_la_LIBADD = \
 $(top_builddir)/src/lib/ecore/libecore.la \

@@ -2026,6 +2026,9 @@ AC_SUBST(requirements_ecore_imf_scim)
 AC_SUBST(requirements_ecore_imf_ibus)
 AC_SUBST(requirements_ecore_wayland)
 
+AM_CONDITIONAL([HAVE_INOTIFY], [test "x${have_inotify}" = "xyes"])
+AM_CONDITIONAL([HAVE_NOTIFY_WIN32], [test "x${have_notify_win32}" = "xyes"])
+
 AC_CONFIG_FILES([
 Makefile
 ecore-con.pc
