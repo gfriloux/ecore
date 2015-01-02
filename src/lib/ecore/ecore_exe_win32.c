@@ -479,7 +479,7 @@ ecore_exe_pipe_run(const char     *exe_cmd,
                    Ecore_Exe_Flags flags,
                    const void     *data)
 {
-   char exe_cmd_buf[PATH_MAX];
+   char *exe_cmd_buf;
    SECURITY_ATTRIBUTES sa;
    STARTUPINFO si;
    PROCESS_INFORMATION pi;
@@ -520,22 +520,18 @@ ecore_exe_pipe_run(const char     *exe_cmd,
         int len;
 
         shell = "cmd.exe";
-        len = snprintf(exe_cmd_buf, sizeof(exe_cmd_buf), "/c %s", exe_cmd);
-        if (len >= (int)sizeof(exe_cmd_buf))
-          exe_cmd_buf[sizeof(exe_cmd_buf) - 1] = '\0';
+        exe_cmd_buf = calloc(1, strlen(exe_cmd) + 4);
+
+        strcpy(exe_cmd_buf, "/c ");
+        strcpy(exe_cmd_buf + 3, exe_cmd);
      }
    else
-     {
-        int len;
+     exe_cmd_buf = strdup(exe_cmd);
 
-        /* FIXME : faster with memset() but one must be careful with size */
-        len = snprintf(exe_cmd_buf, sizeof(exe_cmd_buf), "%s", exe_cmd);
-        if (len >= (int)sizeof(exe_cmd_buf))
-          exe_cmd_buf[sizeof(exe_cmd_buf) - 1] = '\0';
-     }
+   if (!exe_cmd_buf) goto free_exe;
 
    exe->flags = flags;
-   exe->cmd = strdup(exe_cmd_buf);
+   exe->cmd = exe_cmd_buf;
    if (!exe->cmd)
      goto free_exe;
 
