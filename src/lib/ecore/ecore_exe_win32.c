@@ -521,14 +521,16 @@ ecore_exe_pipe_run(const char     *exe_cmd,
 
         shell = "cmd.exe";
         exe_cmd_buf = calloc(1, strlen(exe_cmd) + 4);
+        if (!exe_cmd_buf) goto free_exe;
 
         strcpy(exe_cmd_buf, "/c ");
         strcpy(exe_cmd_buf + 3, exe_cmd);
      }
    else
-     exe_cmd_buf = strdup(exe_cmd);
-
-   if (!exe_cmd_buf) goto free_exe;
+     {
+        exe_cmd_buf = strdup(exe_cmd);
+        if (!exe_cmd_buf) goto free_exe;
+     }
 
    exe->flags = flags;
    exe->cmd = exe_cmd_buf;
