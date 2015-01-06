@@ -1485,8 +1485,13 @@ _ecore_con_cb_tcp_listen(void           *data,
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
    if (svr->fd < 0) goto error;
+
+#ifdef _WIN32
+   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
+#else
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
 
    lin.l_onoff = 1;
    lin.l_linger = 0;
@@ -1585,8 +1590,13 @@ _ecore_con_cb_udp_listen(void           *data,
 
    if (setsockopt(svr->fd, SOL_SOCKET, SO_REUSEADDR, (const void *)&on, sizeof(on)) != 0)
      goto error;
+
+#ifdef _WIN32
+   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
+#else
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
 
    if (bind(svr->fd, net_info->info.ai_addr, net_info->info.ai_addrlen) < 0)
      goto error;
@@ -1632,8 +1642,12 @@ _ecore_con_cb_tcp_connect(void           *data,
                     net_info->info.ai_protocol);
    if (svr->fd < 0) goto error;
 
+#ifdef _WIN32
+   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
+#else
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
 
    if (setsockopt(svr->fd, SOL_SOCKET, SO_REUSEADDR, (const void *)&curstate, sizeof(curstate)) < 0)
      goto error;
@@ -1654,7 +1668,7 @@ _ecore_con_cb_tcp_connect(void           *data,
 #ifdef _WIN32
    if (res == SOCKET_ERROR)
      {
-        if (WSAGetLastError() != WSAEINPROGRESS)
+        if (WSAGetLastError() != WSAEWOULDBLOCK)
           {
              char *err;
              err = evil_format_message(WSAGetLastError());
@@ -1727,8 +1741,13 @@ _ecore_con_cb_udp_connect(void           *data,
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
    if (svr->fd < 0) goto error;
+
+#ifdef _WIN32
+   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
+#else
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
    if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_BROADCAST)
      {
         if (setsockopt(svr->fd, SOL_SOCKET, SO_BROADCAST,
@@ -1901,8 +1920,12 @@ _ecore_con_svr_tcp_handler(void                        *data,
         goto error;
      }
 
+#ifdef _WIN32
+   if (ioctlsocket(cl->fd, FIONBIO, &mode)) goto error;
+#else
    if (fcntl(cl->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(cl->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
    cl->fd_handler = ecore_main_fd_handler_add(cl->fd, ECORE_FD_READ,
                                               _ecore_con_svr_cl_handler, cl, NULL, NULL);
    if (!cl->fd_handler) goto error;
@@ -2107,6 +2130,9 @@ _ecore_con_svr_udp_handler(void             *data,
    int num;
    Ecore_Con_Server *svr;
    Ecore_Con_Client *cl = NULL;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    svr = data;
 
@@ -2123,8 +2149,7 @@ _ecore_con_svr_udp_handler(void             *data,
      return ECORE_CALLBACK_RENEW;
 
 #ifdef _WIN32
-   num = fcntl(svr->fd, F_SETFL, O_NONBLOCK);
-   if (num >= 0)
+   if !ioctlsocket(svr->fd, FIONBIO, &mode))
      num = recvfrom(svr->fd, (char *)buf, sizeof(buf), 0,
                 (struct sockaddr *)&client_addr,
                 &client_addr_len);
