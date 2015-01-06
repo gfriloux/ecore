@@ -1484,11 +1484,13 @@ _ecore_con_cb_tcp_listen(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-   if (svr->fd < 0) goto error;
-
 #ifdef _WIN32
+   if (svr->fd == INVALID_SOCKET) goto error;
+
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
+   if (svr->fd < 0) goto error;
+
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1559,7 +1561,16 @@ _ecore_con_cb_udp_listen(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
+#ifdef _WIN32
+   if (svr->fd == INVALID_SOCKET) goto error;
+
+   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
+#else
    if (svr->fd < 0) goto error;
+
+   if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
+   if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
+#endif
 
    if (type == ECORE_CON_REMOTE_MCAST)
      {
@@ -1590,13 +1601,6 @@ _ecore_con_cb_udp_listen(void           *data,
 
    if (setsockopt(svr->fd, SOL_SOCKET, SO_REUSEADDR, (const void *)&on, sizeof(on)) != 0)
      goto error;
-
-#ifdef _WIN32
-   if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
-#else
-   if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
-   if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
-#endif
 
    if (bind(svr->fd, net_info->info.ai_addr, net_info->info.ai_addrlen) < 0)
      goto error;
@@ -1640,11 +1644,13 @@ _ecore_con_cb_tcp_connect(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-   if (svr->fd < 0) goto error;
-
 #ifdef _WIN32
+   if (svr->fd == INVALID_SOCKET) goto error;
+
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
+   if (svr->fd < 0) goto error;
+
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1740,11 +1746,13 @@ _ecore_con_cb_udp_connect(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-   if (svr->fd < 0) goto error;
-
 #ifdef _WIN32
+   if (svr->fd == INVALID_SOCKET) goto error;
+
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
+   if (svr->fd < 0) goto error;
+
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1912,7 +1920,11 @@ _ecore_con_svr_tcp_handler(void                        *data,
    client_addr_len = sizeof(client_addr);
    memset(&client_addr, 0, client_addr_len);
    cl->fd = accept(svr->fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_addr_len);
+#ifdef _WIN32
+   if (cl->fd == INVALID_SOCKET) goto error;
+#else
    if (cl->fd < 0) goto error;
+#endif
    if ((svr->client_limit >= 0) && (svr->reject_excess_clients) &&
        (svr->client_count >= (unsigned int)svr->client_limit))
      {
