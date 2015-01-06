@@ -1472,6 +1472,9 @@ _ecore_con_cb_tcp_listen(void           *data,
    Ecore_Con_Server *svr;
    struct linger lin;
    const char *memerr = NULL;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    svr = data;
 
@@ -1547,6 +1550,9 @@ _ecore_con_cb_udp_listen(void           *data,
 #endif
    const int on = 1;
    const char *memerr = NULL;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    svr = data;
    type = svr->type;
@@ -1632,6 +1638,9 @@ _ecore_con_cb_tcp_connect(void           *data,
    int res;
    int curstate = 0;
    const char *memerr = NULL;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    svr = data;
 
@@ -1736,6 +1745,9 @@ _ecore_con_cb_udp_connect(void           *data,
    int broadcast = 1;
    const char *memerr = NULL;
    svr = data;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    errno = 0;
    if (!net_info) /* error message has already been handled */
@@ -1898,6 +1910,9 @@ _ecore_con_svr_tcp_handler(void                        *data,
    unsigned char client_addr[256];
    unsigned int client_addr_len;
    const char *clerr = NULL;
+#ifdef _WIN32
+   u_long mode = 1;
+#endif
 
    svr = data;
    if (svr->delete_me)
