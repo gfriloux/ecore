@@ -2028,7 +2028,7 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
 
    if (timeout == 0) return 0;
 
-   result = MsgWaitForMultipleObjects(objects_nbr, (const HANDLE *)objects, EINA_FALSE,
+   result = MsgWaitForMultipleObjects(objects_nbr, (const HANDLE *)objects, FALSE,
                                       timeout, QS_ALLINPUT);
 
    if (readfds)
