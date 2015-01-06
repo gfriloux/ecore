@@ -2350,9 +2350,48 @@ _ecore_con_server_flush(Ecore_Con_Server *svr)
      }
 
    if (svr->ecs_state || (!(svr->type & ECORE_CON_SSL)))
+#ifdef _WIN32
+     count = send(svr->fd, (const char *)buf + *buf_offset, num, 0);
+#else
      count = write(svr->fd, buf + *buf_offset, num);
+#endif
    else
      count = ecore_con_ssl_server_write(svr, buf + *buf_offset, num);
+
+#ifdef _WIN32
+   if (count == SOCKET_ERROR)
+     {
+        switch (WSAGetLastError())
+          {
+           case WSAEINTR:
+           case WSAEINPROGRESS:
+           case WSAEWOULDBLOCK:
+             break;
+           default:
+             {
+                LPTSTR s;
+
+                FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+                              FORMAT_MESSAGE_FROM_SYSTEM     |
+                              FORMAT_MESSAGE_FROM_STRING,
+                              NULL, WSAGetLastError(), (DWORD)NULL, s, 0, NULL);
+                ecore_con_event_server_error(svr, (char *)s);
+                free(s);
+                _ecore_con_server_kill(svr);
+             }
+          }
+     }
+#else
+   if (count < 0)
+     {
+         if ((errno != EAGAIN) && (errno != EINTR))
+           {
+              ecore_con_event_server_error(svr, strerror(errno));
+              _ecore_con_server_kill(svr);
+           }
+         return;
+     }
+#endif
 
    if (count < 0)
      {
