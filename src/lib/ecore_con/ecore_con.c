@@ -2024,7 +2024,11 @@ _ecore_con_cl_read(Ecore_Con_Server *svr)
    if (svr->ecs_state || !(svr->type & ECORE_CON_SSL))
      {
         errno = 0;
+#ifdef _WIN32
+        num = recv(svr->fd, buf, sizeof(buf), 0);
+#else
         num = read(svr->fd, buf, sizeof(buf));
+#endif
         /* 0 is not a valid return value for a tcp socket */
         if ((num > 0) || ((num < 0) && (errno == EAGAIN)))
            lost_server = EINA_FALSE;
