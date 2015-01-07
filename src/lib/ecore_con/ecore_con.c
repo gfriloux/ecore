@@ -2352,11 +2352,7 @@ _ecore_con_server_flush(Ecore_Con_Server *svr)
      }
 
    if (svr->ecs_state || (!(svr->type & ECORE_CON_SSL)))
-#ifdef _WIN32
      count = send(svr->fd, (const char *)buf + *buf_offset, num, 0);
-#else
-     count = write(svr->fd, buf + *buf_offset, num);
-#endif
    else
      count = ecore_con_ssl_server_write(svr, buf + *buf_offset, num);
 
@@ -2477,7 +2473,7 @@ _ecore_con_client_flush(Ecore_Con_Client *cl)
         num = eina_binbuf_length_get(cl->buf) - cl->buf_offset;
         if (num <= 0) return;
         if (!(cl->host_server->type & ECORE_CON_SSL) && (!cl->upgrade))
-          count = write(cl->fd, eina_binbuf_string_get(cl->buf) + cl->buf_offset, num);
+          count = send(cl->fd, eina_binbuf_string_get(cl->buf) + cl->buf_offset, num, 0);
         else
           count = ecore_con_ssl_client_write(cl, eina_binbuf_string_get(cl->buf) + cl->buf_offset, num);
      }
