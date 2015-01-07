@@ -2024,7 +2024,7 @@ _ecore_con_cl_read(Ecore_Con_Server *svr)
    if (svr->ecs_state || !(svr->type & ECORE_CON_SSL))
      {
         errno = 0;
-        num = recv(svr->fd, buf, sizeof(buf), 0);
+        num = recv(svr->fd, (char *)buf, sizeof(buf), 0);
 
         /* 0 is not a valid return value for a tcp socket */
         if ((num > 0) || ((num < 0) && (errno == EAGAIN)))
@@ -2077,7 +2077,7 @@ _ecore_con_cl_handler(void             *data,
           {
              char buf[READBUFSIZ];
              ssize_t len;
-             len = recv(svr->fd, buf, sizeof(buf), MSG_DONTWAIT | MSG_PEEK);
+             len = recv(svr->fd, (char *)buf, sizeof(buf), MSG_DONTWAIT | MSG_PEEK);
              DBG("%zu bytes in buffer", len);
           }
 #endif
@@ -2134,7 +2134,7 @@ _ecore_con_cl_udp_handler(void             *data,
         return ECORE_CALLBACK_RENEW;
      }
 
-   num = recv(svr->fd, buf, READBUFSIZ, 0);
+   num = recv(svr->fd, (char *)buf, READBUFSIZ, 0);
 
    if ((!svr->delete_me) && (num > 0))
      ecore_con_event_server_data(svr, buf, num, EINA_TRUE);
@@ -2244,7 +2244,7 @@ _ecore_con_svr_cl_read(Ecore_Con_Client *cl)
 
    if (!(cl->host_server->type & ECORE_CON_SSL) && (!cl->upgrade))
      {
-        num = recv(cl->fd, buf, sizeof(buf), 0);
+        num = recv(cl->fd, (char *)buf, sizeof(buf), 0);
 
         /* 0 is not a valid return value for a tcp socket */
         if ((num > 0) || ((num < 0) && ((errno == EAGAIN) || (errno == EINTR))))
