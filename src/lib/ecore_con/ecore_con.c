@@ -2371,7 +2371,9 @@ _ecore_con_server_flush(Ecore_Con_Server *svr)
 
                 FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
                               FORMAT_MESSAGE_FROM_SYSTEM,
-                              NULL, WSAGetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&s, 0, NULL);
+                              NULL, WSAGetLastError(),
+                              MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+                              (LPTSTR)&s, 0, NULL);
                 ecore_con_event_server_error(svr, (char *)s);
                 free(s);
                 _ecore_con_server_kill(svr);
