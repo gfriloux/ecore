@@ -898,7 +898,7 @@ ecore_con_client_del(Ecore_Con_Client *cl)
      }
 
 #ifdef _WIN32
-        WSASendDisconnect(cl->fd, NULL);
+   WSASendDisconnect(cl->fd, NULL);
 #endif
 
    _ecore_con_client_kill(cl);
