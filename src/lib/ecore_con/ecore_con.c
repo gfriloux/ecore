@@ -705,7 +705,7 @@ ecore_con_server_send(Ecore_Con_Server *svr,
         svr->buf = eina_binbuf_new();
         EINA_SAFETY_ON_NULL_RETURN_VAL(svr->buf, 0);
 #ifdef TCP_CORK
-        if ((ECORE_VALID_SOCKET(svr->fd) && ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
+        if ((ECORE_VALID_SOCKET(svr->fd)) && ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
           {
              int state = 1;
              if (setsockopt(svr->fd, IPPROTO_TCP, TCP_CORK, (char *)&state, sizeof(int)) < 0)
@@ -1318,7 +1318,7 @@ _ecore_con_server_free(Ecore_Con_Server *svr)
    if (svr->fd_handler)
      ecore_main_fd_handler_del(svr->fd_handler);
 
-   if (ECORE_CLOSE_SOCKET(svr->fd))
+   if (ECORE_VALID_SOCKET(svr->fd))
      closesocket(svr->fd);
 
    if (svr->until_deletion)
