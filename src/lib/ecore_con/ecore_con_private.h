@@ -55,6 +55,16 @@ extern int _ecore_con_log_dom;
 #endif
 #define CRI(...) EINA_LOG_DOM_CRIT(_ecore_con_log_dom, __VA_ARGS__)
 
+#ifndef _WIN32
+# define closesocket(fd) close(fd)
+# define SOCKET int
+# define ECORE_INVALID_SOCKET(fd) fd < 0
+# define ECORE_VALID_SOCKET(fd) fd >= 0
+#else
+# define ECORE_INVALID_SOCKET(fd) fd == INVALID_SOCKET
+# define ECORE_VALID_SOCKET(fd) fd != INVALID_SOCKET
+#endif
+
 typedef struct _Ecore_Con_Lookup Ecore_Con_Lookup;
 typedef struct _Ecore_Con_Info Ecore_Con_Info;
 typedef struct Ecore_Con_Socks Ecore_Con_Socks_v4;
@@ -100,11 +110,7 @@ typedef enum Ecore_Con_Proxy_State
 struct _Ecore_Con_Client
 {
    ECORE_MAGIC;
-#ifdef _WIN32
    SOCKET fd;
-#else
-   int fd;
-#endif
    Ecore_Con_Server *host_server;
    void *data;
    Ecore_Fd_Handler *fd_handler;
@@ -133,11 +139,7 @@ struct _Ecore_Con_Client
 struct _Ecore_Con_Server
 {
    ECORE_MAGIC;
-#ifdef _WIN32
    SOCKET fd;
-#else
-   int fd;
-#endif
    Ecore_Con_Type type;
    char *name;
    int port;

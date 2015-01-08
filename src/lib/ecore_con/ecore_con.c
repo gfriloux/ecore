@@ -430,8 +430,8 @@ error:
    if (svr->fd_handler)
      ecore_main_fd_handler_del(svr->fd_handler);
 
-   if (svr->fd > 0)
-     close(svr->fd);
+   if (ECORE_VALID_SOCKET(svr->fd))
+     closesocket(svr->fd);
 
    if (svr->buf)
      eina_binbuf_free(svr->buf);
@@ -540,8 +540,8 @@ error:
    if (svr->fd_handler)
      ecore_main_fd_handler_del(svr->fd_handler);
 
-   if (svr->fd > 0)
-     close(svr->fd);
+   if (ECORE_VALID_SOCKET(svr->fd))
+     closesocket(svr->fd);
 
    ecore_con_ssl_server_shutdown(svr);
    free(svr);
@@ -705,7 +705,7 @@ ecore_con_server_send(Ecore_Con_Server *svr,
         svr->buf = eina_binbuf_new();
         EINA_SAFETY_ON_NULL_RETURN_VAL(svr->buf, 0);
 #ifdef TCP_CORK
-        if ((svr->fd >= 0) && ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
+        if ((ECORE_VALID_SOCKET(svr->fd) && ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
           {
              int state = 1;
              if (setsockopt(svr->fd, IPPROTO_TCP, TCP_CORK, (char *)&state, sizeof(int)) < 0)
@@ -819,7 +819,7 @@ ecore_con_client_send(Ecore_Con_Client *cl,
              cl->buf = eina_binbuf_new();
              EINA_SAFETY_ON_NULL_RETURN_VAL(cl->buf, 0);
 #ifdef TCP_CORK
-             if ((cl->fd >= 0) && ((cl->host_server->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
+             if ((ECORE_VALID_SOCKET(cl->fd)) && ((cl->host_server->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_CORK))
                {
                   int state = 1;
                   if (setsockopt(cl->fd, IPPROTO_TCP, TCP_CORK, (char *)&state, sizeof(int)) < 0)
@@ -1318,8 +1318,8 @@ _ecore_con_server_free(Ecore_Con_Server *svr)
    if (svr->fd_handler)
      ecore_main_fd_handler_del(svr->fd_handler);
 
-   if (svr->fd > 0)
-     close(svr->fd);
+   if (ECORE_CLOSE_SOCKET(svr->fd))
+     closesocket(svr->fd);
 
    if (svr->until_deletion)
      ecore_timer_del(svr->until_deletion);
@@ -1368,8 +1368,8 @@ _ecore_con_client_free(Ecore_Con_Client *cl)
    if (cl->fd_handler)
      ecore_main_fd_handler_del(cl->fd_handler);
 
-   if (cl->fd > 0)
-     close(cl->fd);
+   if (ECORE_VALID_SOCKET(cl->fd))
+     closesocket(cl->fd);
 
    free(cl->client_addr);
    cl->client_addr = NULL;
@@ -1495,13 +1495,11 @@ _ecore_con_cb_tcp_listen(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-#ifdef _WIN32
-   if (svr->fd == INVALID_SOCKET) goto error;
+   if (ECORE_INVALID_SOCKET(svr->fd)) goto error;
 
+#ifdef _WIN32
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
-   if (svr->fd < 0) goto error;
-
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1575,13 +1573,11 @@ _ecore_con_cb_udp_listen(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-#ifdef _WIN32
-   if (svr->fd == INVALID_SOCKET) goto error;
+   if (ECORE_INVALID_SOCKET(svr->fd)) goto error;
 
+#ifdef _WIN32
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
-   if (svr->fd < 0) goto error;
-
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1661,13 +1657,11 @@ _ecore_con_cb_tcp_connect(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
-#ifdef _WIN32
-   if (svr->fd == INVALID_SOCKET) goto error;
+   if (ECORE_INVALID_SOCKET(svr->fd)) goto error;
 
+#ifdef _WIN32
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
-   if (svr->fd < 0) goto error;
-
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1766,13 +1760,10 @@ _ecore_con_cb_udp_connect(void           *data,
 
    svr->fd = socket(net_info->info.ai_family, net_info->info.ai_socktype,
                     net_info->info.ai_protocol);
+   if (ECORE_INVALID_SOCKET(svr->fd)) goto error;
 #ifdef _WIN32
-   if (svr->fd == INVALID_SOCKET) goto error;
-
    if (ioctlsocket(svr->fd, FIONBIO, &mode)) goto error;
 #else
-   if (svr->fd < 0) goto error;
-
    if (fcntl(svr->fd, F_SETFL, O_NONBLOCK) < 0) goto error;
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
@@ -1943,11 +1934,8 @@ _ecore_con_svr_tcp_handler(void                        *data,
    client_addr_len = sizeof(client_addr);
    memset(&client_addr, 0, client_addr_len);
    cl->fd = accept(svr->fd, (struct sockaddr *)&client_addr, (socklen_t *)&client_addr_len);
-#ifdef _WIN32
-   if (cl->fd == INVALID_SOCKET) goto error;
-#else
-   if (cl->fd < 0) goto error;
-#endif
+   if (ECORE_INVALID_SOCKET(cl->fd)) goto error;
+
    if ((svr->client_limit >= 0) && (svr->reject_excess_clients) &&
        (svr->client_count >= (unsigned int)svr->client_limit))
      {
@@ -1993,7 +1981,7 @@ _ecore_con_svr_tcp_handler(void                        *data,
 
 error:
    if (cl->fd_handler) ecore_main_fd_handler_del(cl->fd_handler);
-   if (cl->fd >= 0) close(cl->fd);
+   if (ECORE_VALID_SOCKET(cl->fd)) closesocket(cl->fd);
    {
       Ecore_Event *ev;
 
