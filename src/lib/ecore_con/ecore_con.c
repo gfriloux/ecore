@@ -590,6 +590,10 @@ ecore_con_server_del(Ecore_Con_Server *svr)
    if (svr->delete_me)
      return NULL;
 
+#ifdef _WIN32
+   WSASendDisconnect(svr->fd, NULL);
+#endif
+
    _ecore_con_server_kill(svr);
    return svr->data;
 }
@@ -892,6 +896,10 @@ ecore_con_client_del(Ecore_Con_Client *cl)
         ECORE_MAGIC_FAIL(cl, ECORE_MAGIC_CON_CLIENT, "ecore_con_client_del");
         return NULL;
      }
+
+#ifdef _WIN32
+        WSASendDisconnect(cl->fd, NULL);
+#endif
 
    _ecore_con_client_kill(cl);
    return cl->data;
