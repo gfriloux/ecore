@@ -2173,7 +2173,7 @@ _ecore_con_svr_udp_handler(void             *data,
      return ECORE_CALLBACK_RENEW;
 
 #ifdef _WIN32
-   if !ioctlsocket(svr->fd, FIONBIO, &mode))
+   if (!ioctlsocket(svr->fd, FIONBIO, &mode))
      num = recvfrom(svr->fd, (char *)buf, sizeof(buf), 0,
                 (struct sockaddr *)&client_addr,
                 &client_addr_len);
