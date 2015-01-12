@@ -3745,6 +3745,7 @@ struct dns_resolv_conf *dns_resconf_local(int *error_) {
 	if (!(resconf = dns_resconf_open(&error)))
 		goto error;
 
+#ifndef _WIN32
 	if ((error = dns_resconf_loadpath(resconf, "/etc/resolv.conf")))
 		goto error;
 
@@ -3752,6 +3753,7 @@ struct dns_resolv_conf *dns_resconf_local(int *error_) {
 		if (error != ENOENT)
 			goto error;
 	}
+#endif
 
 	return resconf;
 error:
