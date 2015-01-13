@@ -1980,20 +1980,18 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
         if (readfds)
           {
              if (FD_ISSET(fdh->fd, readfds))
-               network_event |= FD_READ;
+               network_event |= FD_READ | FD_CONNECT | FD_ACCEPT;
           }
         if (writefds)
           {
              if (FD_ISSET(fdh->fd, writefds))
-               network_event |= FD_WRITE;
+               network_event |= FD_WRITE | FD_CLOSE;
           }
         if (exceptfds)
           {
              if (FD_ISSET(fdh->fd, exceptfds))
                network_event |= FD_OOB;
           }
-
-        network_event |= FD_CLOSE | FD_CONNECT | FD_ACCEPT;
 
         if (network_event)
           {
