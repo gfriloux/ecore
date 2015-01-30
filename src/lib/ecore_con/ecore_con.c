@@ -2392,16 +2392,6 @@ _ecore_con_server_flush(Ecore_Con_Server *svr)
      }
 #endif
 
-   if (count < 0)
-     {
-         if ((errno != EAGAIN) && (errno != EINTR))
-           {
-              ecore_con_event_server_error(svr, strerror(errno));
-              _ecore_con_server_kill(svr);
-           }
-         return;
-     }
-
    if (count && (!svr->ecs_state)) ecore_con_event_server_write(svr, count);
 
    if (!eina_binbuf_remove(buf_p, 0, count))
