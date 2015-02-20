@@ -1980,12 +1980,12 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
         if (readfds)
           {
              if (FD_ISSET(fdh->fd, readfds))
-               network_event |= FD_READ | FD_CONNECT | FD_ACCEPT;
+               network_event |= FD_READ | FD_CONNECT | FD_ACCEPT | FD_CLOSE;
           }
         if (writefds)
           {
              if (FD_ISSET(fdh->fd, writefds))
-               network_event |= FD_WRITE | FD_CLOSE;
+               network_event |= FD_WRITE;
           }
         if (exceptfds)
           {
@@ -2069,9 +2069,9 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
 
         WSAEnumNetworkEvents(sockets[result], objects[result], &network_event);
 
-        if ((network_event.lNetworkEvents & (FD_READ | FD_CONNECT | FD_ACCEPT)) && readfds)
+        if ((network_event.lNetworkEvents & (FD_READ | FD_CONNECT | FD_ACCEPT | FD_CLOSE)) && readfds)
           FD_SET(sockets[result], readfds);
-        if ((network_event.lNetworkEvents & (FD_WRITE | FD_CLOSE)) && writefds)
+        if ((network_event.lNetworkEvents & (FD_WRITE)) && writefds)
           FD_SET(sockets[result], writefds);
         if ((network_event.lNetworkEvents & FD_OOB) && exceptfds)
           FD_SET(sockets[result], exceptfds);
