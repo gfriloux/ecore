@@ -2063,9 +2063,6 @@ _ecore_con_cl_handler(void             *data,
    if (svr->delete_me)
      return ECORE_CALLBACK_RENEW;
 
-   if (svr->delete_me)
-     return ECORE_CALLBACK_RENEW;
-
    want_read = ecore_main_fd_handler_active_get(fd_handler, ECORE_FD_READ);
    want_write = ecore_main_fd_handler_active_get(fd_handler, ECORE_FD_WRITE);
 
