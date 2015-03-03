@@ -33,9 +33,6 @@ libecore_file_la_SOURCES += ecore_file_monitor_inotify.c
 else
 if HAVE_NOTIFY_WIN32
 libecore_file_la_SOURCES += ecore_file_monitor_win32.c
-else
-libecore_file_la_SOURCES += ecore_file_monitor_poll.c
-endif
 endif
 
 libecore_file_la_LIBADD = \
