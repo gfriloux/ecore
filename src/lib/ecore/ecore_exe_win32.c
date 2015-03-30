@@ -1091,7 +1091,7 @@ ecore_exe_terminate(Ecore_Exe *exe)
    CloseHandle(exe->process);
    exe->process = NULL;
    exe->sig = ECORE_EXE_WIN32_SIGTERM;
-   while (EnumWindows(_ecore_exe_enum_windows_procedure, (LPARAM)exe)) ;
+   EnumWindows(_ecore_exe_enum_windows_procedure, (LPARAM)exe);
 }
 
 EAPI void
@@ -1109,7 +1109,7 @@ ecore_exe_kill(Ecore_Exe *exe)
    CloseHandle(exe->process);
    exe->process = NULL;
    exe->sig = ECORE_EXE_WIN32_SIGKILL;
-   while (EnumWindows(_ecore_exe_enum_windows_procedure, (LPARAM)exe)) ;
+   EnumWindows(_ecore_exe_enum_windows_procedure, (LPARAM)exe);
 }
 
 EAPI void
