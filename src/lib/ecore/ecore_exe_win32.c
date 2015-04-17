@@ -596,7 +596,7 @@ ecore_exe_pipe_run(const char     *exe_cmd,
    if (!CreateProcess(shell, exe->cmd, NULL, NULL, EINA_TRUE,
                       run_pri | CREATE_SUSPENDED, NULL, NULL, &si, &pi))
      {
-        ERR("Failed to create process %s", exe->cmd);
+        ERR("Failed to create process %s : %d", exe->cmd, GetLastError());
         goto close_pipe_write;
      }
 
