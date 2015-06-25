@@ -193,8 +193,18 @@ _ecore_exe_pipe_read_thread_cb(void *data)
           }
         current_size = size;
 
-        exe->pipe_read.data_buf = current_buf;
-        exe->pipe_read.data_size = current_size;
+        if (!exe->pipe_read.data_buf)
+          {
+             exe->pipe_read.data_buf = current_buf;
+             exe->pipe_read.data_size = current_size;
+          }
+        else
+          {
+             exe->pipe_read.data_buf = realloc(exe->pipe_read.data_buf, exe->pipe_read.data_size + current_size);
+             memcpy(exe->pipe_read.data_buf + exe->pipe_read.data_size, current_buf, current_size);
+             exe->pipe_read.data_size += current_size;
+             free(current_buf);
+          }
 
         event_data = ecore_exe_event_data_get(exe, ECORE_EXE_PIPE_READ);
         if (event_data)
