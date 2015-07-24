@@ -174,7 +174,8 @@ _ecore_exe_pipe_read_thread_cb(void *data)
 
         if (!exe->pipe_read.data_buf)
           {
-             exe->pipe_read.data_buf = buf;
+             exe->pipe_read.data_buf = (char *)malloc(size);
+             memcpy(exe->pipe_read.data_buf, buf, size);
              exe->pipe_read.data_size = size;
           }
         else
