@@ -161,49 +161,27 @@ _ecore_exe_pipe_read_thread_cb(void *data)
    char buf[64];
    Ecore_Exe *exe;
    Ecore_Exe_Event_Data *event_data;
-   char *current_buf = NULL;
    DWORD size;
-   DWORD current_size = 0;
    BOOL res;
 
    exe = (Ecore_Exe *)data;
 
    while (!exe->close_threads)
      {
-        if (!PeekNamedPipe(exe->pipe_read.child_pipe,
-                           buf, sizeof(buf) - 1, &size, &current_size, NULL))
-          continue;
-        if (size == 0)
-          continue;
-        current_buf = (char *)malloc(current_size);
-        if (!current_buf)
-          continue;
-        res = ReadFile(exe->pipe_read.child_pipe, current_buf, current_size, &size, NULL);
+        res = ReadFile(exe->pipe_read.child_pipe, buf, sizeof(buf)-1, &size, NULL);
         if (!res || (size == 0))
-          {
-             free(current_buf);
-             current_buf = NULL;
-             continue;
-          }
-        if (current_size != size)
-          {
-             free(current_buf);
-             current_buf = NULL;
-             continue;
-          }
-        current_size = size;
+          continue;
 
         if (!exe->pipe_read.data_buf)
           {
-             exe->pipe_read.data_buf = current_buf;
-             exe->pipe_read.data_size = current_size;
+             exe->pipe_read.data_buf = buf;
+             exe->pipe_read.data_size = size;
           }
         else
           {
-             exe->pipe_read.data_buf = realloc(exe->pipe_read.data_buf, exe->pipe_read.data_size + current_size);
-             memcpy(exe->pipe_read.data_buf + exe->pipe_read.data_size, current_buf, current_size);
-             exe->pipe_read.data_size += current_size;
-             free(current_buf);
+             exe->pipe_read.data_buf = realloc(exe->pipe_read.data_buf, exe->pipe_read.data_size + size);
+             memcpy(exe->pipe_read.data_buf + exe->pipe_read.data_size, buf, size);
+             exe->pipe_read.data_size += size;
           }
 
         event_data = ecore_exe_event_data_get(exe, ECORE_EXE_PIPE_READ);
@@ -213,9 +191,6 @@ _ecore_exe_pipe_read_thread_cb(void *data)
                              _ecore_exe_event_exe_data_free,
                              NULL);
           }
-
-        current_buf = NULL;
-        current_size = 0;
      }
 
    _endthreadex(0);
