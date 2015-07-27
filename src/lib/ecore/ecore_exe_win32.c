@@ -91,6 +91,39 @@ struct _Ecore_Exe
 };
 
 static void
+_ecore_exe_threads_terminate(Ecore_Exe *exe)
+{
+   HANDLE threads[2] = { NULL, NULL };
+   int i = 0;
+
+   if (exe->pipe_read.thread)
+     {
+        threads[i] = exe->pipe_read.thread;
+        i++;
+     }
+   if (exe->pipe_error.thread)
+     {
+        threads[i] = exe->pipe_error.thread;
+        i++;
+     }
+   if (i > 0)
+     {
+        exe->close_threads = 1;
+        WaitForMultipleObjects(i, threads, TRUE, INFINITE);
+        if (exe->pipe_error.thread)
+          {
+             CloseHandle(exe->pipe_error.thread);
+             exe->pipe_error.thread = NULL;
+          }
+        if (exe->pipe_read.thread)
+          {
+             CloseHandle(exe->pipe_read.thread);
+             exe->pipe_read.thread = NULL;
+          }
+     }
+}
+
+static void
 _ecore_exe_event_add_free(void *data EINA_UNUSED,
                           void *ev)
 {
@@ -132,6 +165,8 @@ _ecore_exe_close_cb(void *data,
 
    exe = (Ecore_Exe *)data;
 
+   _ecore_exe_threads_terminate(exe);
+
    /* FIXME : manage the STILL_ACTIVE returned error */
    if (!GetExitCodeProcess(exe->process, &exit_code))
      {
@@ -168,13 +203,13 @@ _ecore_exe_pipe_read_thread_cb(void *data)
 
    exe = (Ecore_Exe *)data;
 
-   while (!exe->close_threads)
+   while (1)
      {
-        if (!PeekNamedPipe(exe->pipe_read.child_pipe,
-                           buf, sizeof(buf) - 1, &size, &current_size, NULL))
-          continue;
-        if (!size)
+        res = PeekNamedPipe(exe->pipe_read.child_pipe,
+                            buf, sizeof(buf) - 1, &size, &current_size, NULL);
+        if ((!res) || (!size))
           {
+             if (exe->close_threads) break;
              Sleep(100);
              continue;
           }
@@ -218,7 +253,6 @@ _ecore_exe_pipe_read_thread_cb(void *data)
      }
 
    _endthreadex(0);
-
    return 0;
 }
 
@@ -276,39 +310,7 @@ _ecore_exe_pipe_error_thread_cb(void *data)
 
    _endthreadex(0);
    return 0;
-}
 
-static void
-_ecore_exe_threads_terminate(Ecore_Exe *exe)
-{
-   HANDLE threads[2] = { NULL, NULL };
-   int i = 0;
-
-   if (exe->pipe_read.thread)
-     {
-        threads[i] = exe->pipe_read.thread;
-        i++;
-     }
-   if (exe->pipe_error.thread)
-     {
-        threads[i] = exe->pipe_error.thread;
-        i++;
-     }
-   if (i > 0)
-     {
-        exe->close_threads = 1;
-        WaitForMultipleObjects(i, threads, TRUE, INFINITE);
-        if (exe->pipe_error.thread)
-          {
-             CloseHandle(exe->pipe_error.thread);
-             exe->pipe_error.thread = NULL;
-          }
-        if (exe->pipe_read.thread)
-          {
-             CloseHandle(exe->pipe_read.thread);
-             exe->pipe_read.thread = NULL;
-          }
-     }
 }
 
 static DWORD WINAPI
