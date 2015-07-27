@@ -269,13 +269,13 @@ _ecore_exe_pipe_error_thread_cb(void *data)
 
    exe = (Ecore_Exe *)data;
 
-   while (!exe->close_threads)
+   while (1)
      {
-        if (!PeekNamedPipe(exe->pipe_error.child_pipe,
-                           buf, sizeof(buf) - 1, &size, &current_size, NULL))
-          continue;
-        if (!size)
+        res = PeekNamedPipe(exe->pipe_read.child_pipe,
+                            buf, sizeof(buf) - 1, &size, &current_size, NULL);
+        if ((!res) || (!size))
           {
+             if (exe->close_threads) break;
              Sleep(100);
              continue;
           }
