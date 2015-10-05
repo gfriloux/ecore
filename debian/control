@@ -1,0 +1,92 @@
+Source: ecore
+Section: libs
+Priority: optional
+Maintainer: Guillaume Friloux <guillaume.friloux@asp64.com>
+Uploaders: Guillaume Friloux <guillaume.friloux@asp64.com>
+Build-Depends: dpkg-dev (>= 1.14.8), debhelper (>= 7.0.50~),
+ libeina-dev (>= 1.7.0~), libglib2.0-dev, libjpeg62-dev, libc-ares-dev, check
+Build-Depends-Indep: doxygen
+Standards-Version: 3.9.1
+Homepage: http://enlightenment.org
+
+Package: libecore1
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Core abstraction layer for enlightenment DR 0.17
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications.
+
+Package: libecore-con1
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Ecore Connection Library
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications.
+ .
+ This package contains the Ecore Connection Library.
+
+Package: libecore-file1
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Ecore File Library
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications.
+ .
+ This package contains the Ecore File Library.
+
+Package: libecore-ipc1
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: Ecore inter-process communication functions
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications.
+ .
+ This package contains the Ecore inter-process communication functions.
+
+Package: libecore-dev
+Architecture: any
+Section: libdevel
+Depends: ${misc:Depends}, libecore1 (= ${binary:Version}),
+         libecore-con1 (= ${binary:Version}),
+         libecore-file1 (= ${binary:Version}),
+         libecore-ipc1 (= ${binary:Version})
+Description: Ecore headers and static libraries
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications.
+ .
+ This package contains headers and static libraries for the Ecore library.
+
+Package: libecore-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: ${misc:Depends}, libecore1 (= ${binary:Version})
+Recommends: libecore-con1 (= ${binary:Version}),
+            libecore-file1 (= ${binary:Version}),
+            libecore-ipc1 (= ${binary:Version}),
+Description: Debugging symbols for libecore
+ This is the core event abstraction layer and X abstraction layer that makes
+ doing selections, Xdnd, general X stuff, and event loops, timeouts and idle
+ handlers fast, optimized, and convenient. It's a separate library so anyone
+ can make use of the work put into Ecore to make this job easy for
+ applications
+ .
+ This package contains unstripped shared libraries. It is provided primarily
+ to provide a backtrace with names in a debugger, this makes it somewhat easier
+ to interpret core dumps. The libraries are installed in /usr/lib/debug and
+ are automatically used by gdb.

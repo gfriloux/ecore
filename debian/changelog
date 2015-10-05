@@ -1,0 +1,65 @@
+ecore (1.7.11-1) stable; urgency=low
+
+  * 1.7.11 is out
+
+ -- Guillaume Friloux <guillaume@friloux.me>  Wed, 29 Oct 2014 08:39:00 +0100
+
+ecore (1.7.10-1) stable; urgency=low
+
+  * 1.7.10 is out
+
+ -- Guillaume Friloux <guillaume.friloux@aspfrance.com>  Fri, 07 Feb 2014 09:11:00 +0100
+
+ecore (1.7.10-1) testing; urgency=low
+
+  * 1.7.10 is out
+
+ -- Guillaume Friloux <guillaume.friloux@aspfrance.com>  Thu, 06 Feb 2014 16:44:00 +0100
+
+ecore (1.7.10-1) unstable; urgency=low
+
+  * 1.7.10 is out
+
+ -- Guillaume Friloux <guillaume.friloux@aspfrance.com>  Tue, 28 Jan 2014 10:44:00 +0100
+
+ecore (1.7.9-1) stable; urgency=low
+
+  * 1.7.9 is out
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Fri, 7 Nov 2013 16:22:00 +0100
+
+ecore (1.7.7-1) unstable; urgency=low
+
+  * git 1.7.7 branch
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Tue, 16 Jul 2013 16:24:00 +0100
+
+ecore (1.7.6-1) unstable; urgency=low
+
+  * git 1.7.6 branch
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 15 Apr 2013 10:28:00 +0100
+
+ecore (1.7.5-1) unstable; urgency=low
+
+  * Now using 1.7.5 branch 
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 21 Jan 2013 09:45:00 +0100
+ 
+ecore (1.7.99.77996-2) unstable; urgency=low
+
+  * add mike_m patch from rev. 78937
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 15 Oct 2012 15:56:00 +0100
+ 
+ecore (1.7.99.77996-1) unstable; urgency=low
+
+  * first version
+
+ -- Pierre-Olivier Huguet <pierre-olivier.huguet@asp64.com>  Mon, 15 Oct 2012 15:56:00 +0100
+ 
+ecore (1.1.0-1) unstable; urgency=low
+
+  * first version
+
+ -- Guillaume Friloux <guillaume.friloux@asp64.com>  Thu, 07 Apr 2011 11:11:48 +0200

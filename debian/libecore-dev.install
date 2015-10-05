@@ -1,0 +1,8 @@
+debian/tmp/usr/include/ecore-*/Ecore*.h
+debian/tmp/usr/lib/libecore*.a
+debian/tmp/usr/lib/libecore*.la
+debian/tmp/usr/lib/libecore.so
+debian/tmp/usr/lib/libecore_con.so
+debian/tmp/usr/lib/libecore_file.so
+debian/tmp/usr/lib/libecore_ipc.so
+debian/tmp/usr/lib/pkgconfig/ecore*.pc
