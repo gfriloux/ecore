@@ -20,9 +20,10 @@ Core EFL (Enlightenment Foundation Library) to handle various data types.
 Summary: Ecore headers and development libraries.
 Group: Development/Libraries
 Requires: %{name} = %{version}
-Requires: curl-devel, openssl-devel, evas-devel, eet-devel
-Requires: ecore-con, ecore-evas, ecore-file, ecore-ipc
-Requires: ecore-x %{?with_lib_ecore_fb:ecore-fb} %{?with_lib_ecore_directfb:ecore-directfb}
+Requires: curl-devel, openssl-devel, eet-devel
+Requires: ecore-con, ecore-file, ecore-ipc
+#Requires: ecore-evas, evas-devel
+#Requires: ecore-x %{?with_lib_ecore_fb:ecore-fb} %{?with_lib_ecore_directfb:ecore-directfb}
 
 %description devel
 Ecore development files
