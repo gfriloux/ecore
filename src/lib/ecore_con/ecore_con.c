@@ -1669,6 +1669,7 @@ _ecore_con_cb_tcp_connect(void           *data,
    if (setsockopt(svr->fd, SOL_SOCKET, SO_REUSEADDR, (const void *)&curstate, sizeof(curstate)) < 0)
      goto error;
 
+#ifndef _WIN32
    if ((svr->type & ECORE_CON_TYPE) == ECORE_CON_REMOTE_NODELAY)
      {
 #ifdef HAVE_NETINET_TCP_H
@@ -1680,6 +1681,7 @@ _ecore_con_cb_tcp_connect(void           *data,
              goto error;
           }
      }
+#endif
 
    res = connect(svr->fd, net_info->info.ai_addr, net_info->info.ai_addrlen);
 #ifdef _WIN32
