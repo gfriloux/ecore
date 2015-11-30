@@ -2202,6 +2202,7 @@ _ecore_con_svr_udp_handler(void             *data,
    EINA_SAFETY_ON_NULL_RETURN_VAL(cl, ECORE_CALLBACK_RENEW);
 
    cl->host_server = svr;
+   cl->fd = -1;
    cl->client_addr = malloc(client_addr_len);
    if (!cl->client_addr)
      {
