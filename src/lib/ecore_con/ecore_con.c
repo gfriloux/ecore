@@ -1480,6 +1480,7 @@ _ecore_con_cb_tcp_listen(void           *data,
    Ecore_Con_Server *svr;
    struct linger lin;
    const char *memerr = NULL;
+   int optval;
 #ifdef _WIN32
    u_long mode = 1;
 #endif
@@ -1504,8 +1505,13 @@ _ecore_con_cb_tcp_listen(void           *data,
    if (fcntl(svr->fd, F_SETFD, FD_CLOEXEC) < 0) goto error;
 #endif
 
+   optval = 1;
    lin.l_onoff = 1;
    lin.l_linger = 0;
+
+   if (setsockopt(svr->fd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval)))
+     goto error;
+
    if (setsockopt(svr->fd, SOL_SOCKET, SO_LINGER, (const void *)&lin,
                   sizeof(struct linger)) < 0)
      goto error;
