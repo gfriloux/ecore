@@ -2053,6 +2053,7 @@ ecore.pc
 doc/ecore.dox
 doc/Makefile
 doc/Doxyfile
+rpm/${PACKAGE}.spec
 src/Makefile
 src/util/Makefile
 src/bin/Makefile
@@ -2085,7 +2086,6 @@ src/modules/immodules/Makefile
 src/modules/immodules/xim/Makefile
 src/modules/immodules/scim/Makefile
 src/modules/immodules/ibus/Makefile
-ecore.spec
 $po_makefile_in
 ])
 

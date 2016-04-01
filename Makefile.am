@@ -65,7 +65,8 @@ m4/ulonglong.m4* \
 m4/visibility.m4 \
 m4/wchar_t.m4 \
 m4/wint_t.m4* \
-m4/xsize.m4*
+m4/xsize.m4* \
+rpm/$(PACKAGE).spec
 
 if HAVE_PO
 
@@ -107,8 +108,6 @@ ecore-psl1ght.pc.in \
 ecore-input.pc.in \
 ecore-wince.pc.in \
 ecore-wayland.pc.in \
-ecore.spec.in \
-ecore.spec \
 m4/ac_abstract_socket.m4 \
 m4/ac_attribute.m4 \
 m4/check_x_extension.m4 \
@@ -119,7 +118,8 @@ m4/efl_path_max.m4 \
 m4/efl_shm_open.m4 \
 m4/efl_coverage.m4 \
 m4/efl_tests.m4 \
-m4/efl_threads.m4
+m4/efl_threads.m4 \
+rpm/$(PACKAGE).spec.in
 
 
 pkgconfigdir = $(libdir)/pkgconfig
