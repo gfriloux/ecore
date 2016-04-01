@@ -11,7 +11,7 @@ Summary:       Enlightened Core event loop library
 Source:        %{name}-%{version}.tar.gz
 
 BuildRequires: pkgconfig subversion automake doxygen m4 autoconf gzip bzip2 tar
-BuildRequires: eet-devel evas-devel libeina-devel
+BuildRequires: eet-devel libeina-devel
 BuildRequires: libX11-devel libXext-devel
 BuildRequires: libXcursor-devel libXrender-devel libxcb-devel 
 BuildRequires: libXinerama-devel libXrandr-devel libXScrnSaver-devel 
