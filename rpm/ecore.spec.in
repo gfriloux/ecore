@@ -195,3 +195,7 @@ NOCONFIGURE=yes ./autogen.sh
 %{_libdir}/libecore_x*.so.*
 %endif
 
+
+%changelog
+* %(LANG=C date "+%a %b %d %Y") Auto RPM build - %{version}-%{release}
+- version %{version}
