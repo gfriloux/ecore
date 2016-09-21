@@ -271,7 +271,7 @@ _ecore_exe_pipe_error_thread_cb(void *data)
 
    while (1)
      {
-        res = PeekNamedPipe(exe->pipe_read.child_pipe,
+        res = PeekNamedPipe(exe->pipe_error.child_pipe,
                             buf, sizeof(buf) - 1, &size, &current_size, NULL);
         if ((!res) || (!size))
           {
@@ -293,8 +293,18 @@ _ecore_exe_pipe_error_thread_cb(void *data)
 
         current_size = size;
 
-        exe->pipe_error.data_buf = current_buf;
-        exe->pipe_error.data_size = current_size;
+        if (!exe->pipe_error.data_buf)
+          {
+             exe->pipe_error.data_buf = current_buf;
+             exe->pipe_error.data_size = current_size;
+          }
+        else
+          {
+             exe->pipe_error.data_buf = realloc(exe->pipe_error.data_buf, exe->pipe_error.data_size + current_size);
+             memcpy(exe->pipe_error.data_buf + exe->pipe_error.data_size, current_buf, current_size);
+             exe->pipe_error.data_size += current_size;
+             free(current_buf);
+          }
 
         event_data = ecore_exe_event_data_get(exe, ECORE_EXE_PIPE_READ);
         if (event_data)
