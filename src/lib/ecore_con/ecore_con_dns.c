@@ -124,6 +124,7 @@ _ecore_con_dns_check(Ecore_Con_DNS *dns)
 
    return 0;
 error:
+   ecore_con_event_server_error(dns->data, dns_strerror(error));
    dns->done_cb(dns->data, NULL);
    _ecore_con_dns_del(dns);
    return -1;
