@@ -309,7 +309,7 @@ _ecore_exe_pipe_error_thread_cb(void *data)
         event_data = ecore_exe_event_data_get(exe, ECORE_EXE_PIPE_ERROR);
         if (event_data)
           {
-             ecore_event_add(ECORE_EXE_EVENT_DATA_ERROR, event_data,
+             ecore_event_add(ECORE_EXE_EVENT_DATA, event_data,
                              _ecore_exe_event_exe_data_free,
                              NULL);
           }
