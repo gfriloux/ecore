@@ -2043,17 +2043,11 @@ _ecore_main_win32_select(int             nfds __UNUSED__,
      {
         char *m;
 
-        if (GetLastError() == 87)
-          {
-             CRI("Critical error inside the main loop! MsgWaitForMultipleObjects() returns invalid parameter error. This means ecore tries to monitor events on an invalid handle!");
-             ecore_main_loop_quit();
-             return -1;
-          }
-
         m = evil_last_error_get();
         ERR("%s", m);
         free(m);
-        res = -1;
+        ecore_main_loop_quit();
+        return -1;
      }
    else if (result == WAIT_TIMEOUT)
      {
